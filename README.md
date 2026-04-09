@@ -78,7 +78,3 @@ Navigate to `http://localhost:3000` to interact.
 
 <br>
 <p align="center">Built natively alongside Stellar Consensus Protocols.</p>
-# pollchain
-# pollchain
-# pollchain
-# pollchain
