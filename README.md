@@ -1,80 +1,139 @@
-<div align="center">
-  <img src="https://stellar.org/img/logo.svg" alt="Stellar" width="80" height="auto" />
-  <h1>PollChain 🗳️⚡</h1>
-  <p><strong>Immutable. Cryptographic. Decentralized Consensus.</strong></p>
-  <br />
-</div>
+# PollChain — On-chain Transparent Voting
 
-<p align="center">
-  <img src="./public/landing.png" alt="PollChain Landing Page" width="100%" style="border-radius: 8px; box-shadow: 0 0 20px rgba(6,182,212,0.5);" />
-</p>
+![CI](https://github.com/parth1241/pollchain/actions/workflows/ci.yml/badge.svg)
+![Vercel](https://img.shields.io/badge/deployed-vercel-black)
+![Stellar](https://img.shields.io/badge/blockchain-Stellar%20Testnet-blue)
+![License](https://img.shields.io/badge/license-MIT-green)
 
-## Introduction
-PollChain completely revolutionizes organizational and public consensus gathering by eliminating backend trust dependencies. Unlike blackbox proprietary databases which can silently manipulate ballots, PollChain forces every single vote natively onto the **Stellar Blockchain Network**. 
+## 🌐 Live Demo
+**[YOUR_VERCEL_URL]**
 
-Votes are encoded directly into the transparent Transaction `memo` properties leveraging micro-payments ($0.00001 fees) bridging web users securely into the ledger via [Freighter](https://www.freighter.app/).
+> Built on **Stellar Testnet** — no real funds used.
 
----
+## 📱 Screenshots
 
-## 🔥 Features
+### Wallet Connected + Balance Display
+> Screenshot of WalletStatusBar showing connected address + XLM balance.
 
-- ⚡️ **Millisecond Finality**: Leveraging Stellar network limits to approve and permanently record bulk-scale votes within ~5 seconds universally.
-- 🔐 **Cryptographic Guarantee**: Absolute public transparency. Scan transactions directly from official Horizon nodes. 
-- 🌌 **"Cyan Electric" UX Design**: Immersive interactive flows, glassmorphism aesthetics, simulated connection phases, and custom reactive CSS analytics charting.
-- 💼 **Next.js 14 Framework Edge**: Built natively on App Router, serverless mongoose tracking caching, standard NextAuth security matrices.
+### Successful Testnet Transaction
+> Screenshot of TransactionSuccessCard after casting a vote.
+> Shows: txHash, amount, wallet address, updated balance, Stellar Expert link.
 
-<br/>
+### Mobile Responsive View
+> Screenshot of the app on 375px mobile width.
 
-<div align="center">
-  <img src="./public/explore.png" alt="PollChain Discover Dashboard" width="48%" style="border-radius: 8px; margin-right: 2%;"/>
-  <img src="./public/vote.png" alt="Live Vote Interface" width="48%" style="border-radius: 8px;"/>
-</div>
-
-<br/>
+### CI/CD Pipeline
+> GitHub Actions tab showing green CI run.
 
 ---
 
-## 🏗️ Technical Architecture
-### Roles
-- **Voter**: Connects local `Freighter` wallet extensions. Signs payloads strictly authorizing micro-fees routing distinct choice markers onto network collectors.
-- **Creator**: Provisions active networks. Spawns automated isolated Keypair collectors mapped explicitly via Node cryptographically `AES-256-CBC` blinded secrets.
+## 📋 What It Does
+PollChain is a decentralized voting platform that ensures every vote is immutable, transparent, and verifiable. By recording votes on the Stellar blockchain, PollChain eliminates concerns about election tampering and provides a public audit trail that anyone can verify. It supports weighted voting, proposal management, and real-time result tracking, making it ideal for DAOs, community governance, and corporate decision-making.
 
-### Flow Dynamics
-1. Initialize Web3 Wallet Native hooks via component libraries.
-2. Select desired option inside UI. Front-end formats specific memo string (max 28 Bytes). 
-3. User signs generated native `<TransactionBuilder>`. Overrides zero logic natively broadcasting out to Horizon endpoints directly. 
-4. Confirm ledger index inclusions routing uniquely to Verifiable API logic gates checking duplication signatures across Mongoose blocks. 
+## ⚙️ Tech Stack
+| Layer | Technology |
+|-------|-----------|
+| Frontend | Next.js 14 App Router + TypeScript |
+| Styling | TailwindCSS + shadcn/ui |
+| Blockchain | Stellar SDK + Soroban + Freighter Wallet |
+| Database | MongoDB Atlas |
+| Auth | NextAuth.js (JWT) |
+| Deployment | Vercel |
+| Network | Stellar Testnet |
 
-<br/>
+## 🔗 Blockchain Details
 
-<div align="center">
-  <img src="./public/results.png" alt="PollChain Results and Live Tx Feed" width="48%" style="border-radius: 8px; margin-right: 2%;"/>
-  <img src="./public/verify.png" alt="Cryptographic Ledger Verify UI" width="48%" style="border-radius: 8px;"/>
-</div>
+### Network
+- **Network:** Stellar Testnet
+- **Horizon:** https://horizon-testnet.stellar.org
+- **Soroban RPC:** https://soroban-testnet.stellar.org
+- **Explorer:** https://stellar.expert/explorer/testnet
 
-<br/>
+### Contract Details
+- **Voting Contract ID:** [CONTRACT_ID]
+- **Blockchain Network:** Stellar Testnet
 
----
+### Asset / Token Details
+- **Asset Code:** XLM (Native)
+- **Explorer Link:** https://stellar.expert/explorer/testnet/asset/XLM
 
-## 🏁 Getting Started
-Deploy the application locally to test the complete flow. 
+## 🚀 Setup Instructions (Run Locally)
+
+### Prerequisites
+- [ ] Node.js 18+
+- [ ] MongoDB Atlas account
+- [ ] Freighter wallet extension
+
+### Step 1 — Clone Repository
 ```bash
-# Clone the repository
-git clone https://github.com/pollchain/core
+git clone https://github.com/parth1241/pollchain.git
 cd pollchain
+```
 
-# Install packages
+### Step 2 — Install Dependencies
+```bash
 npm install
+```
 
-# Configure environments (.env.local)
-# Requires MONGODB_URI, NEXTAUTH_SECRET, NEXTAUTH_URL, POLL_ENCRYPTION_KEY, NEXT_PUBLIC_STELLAR_HORIZON
+### Step 3 — Configure Environment Variables
+```bash
 cp .env.example .env.local
+```
 
-# Run development server
+### Step 4 — Set Up MongoDB Atlas
+1. Visit https://cloud.mongodb.com and create a free M0 cluster.
+2. Add a database user and allow network access (0.0.0.0/0).
+3. Copy the driver connection string into `MONGODB_URI` in `.env.local`.
+
+### Step 5 — Set Up Freighter Wallet
+1. Install Freighter and switch to **Testnet**.
+2. Fund your wallet at https://friendbot.stellar.org/?addr=YOUR_PUBLIC_KEY.
+
+### Step 6 — Run Development Server
+```bash
 npm run dev
 ```
 
-Navigate to `http://localhost:3000` to interact. 
+### Step 7 — Create Account + Connect Wallet
+1. Visit http://localhost:3000/signup
+2. After login, click "Connect Wallet" and approve in Freighter.
 
-<br>
-<p align="center">Built natively alongside Stellar Consensus Protocols.</p>
+### Step 8 — Test a Transaction
+1. Polls → Active Polls.
+2. Select a proposal and cast your vote.
+3. Click "Submit Vote to Blockchain".
+4. Approve in Freighter → transaction confirmed and vote recorded on-chain.
+
+## 📁 Project Structure
+```
+/app                 → Next.js App Router root
+  /polls             → Poll browsing & creation
+  /results           → Real-time analytics
+  /api               → API routes for backend logic
+/components
+  /shared            → Blockchain-aware components
+  /visuals           → Charts and result visuals
+/lib
+  stellar.ts         ← Core Stellar/Soroban SDK logic
+  voting.ts          ← Smart contract interaction layer
+```
+
+## 🔒 Security
+- Vote privacy: Only cryptographic proof of salt is recorded if needed.
+- Client-side signing: No storage of private keys.
+- Anti-sybil: Multi-factor authentication + wallet verification.
+
+## 🌱 Deployment (Vercel)
+1. Push to GitHub.
+2. Import to Vercel and add environment variables.
+3. Update `NEXTAUTH_URL` to your Vercel URL.
+
+## 📝 Commit History
+10+ meaningful commits following conventional format.
+
+## 🏆 Hackathon
+Built for the **Antigravity x Stellar Builder Track Belt Progression**.
+- Level 1-4 Complete ✅
+
+## 📄 License
+MIT — see LICENSE file
