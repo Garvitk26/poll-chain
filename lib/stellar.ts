@@ -1,130 +1,210 @@
-import { Horizon, Keypair, Operation, Asset, Memo, TransactionBuilder, Networks, Transaction } from '@stellar/stellar-sdk';
-import crypto from 'crypto';
-import { env } from './env';
+import {
+  Server,
+  Networks,
+  Operation,
+  TransactionBuilder,
+  BASE_FEE,
+  Memo,
+  Asset,
+  Keypair
+} from '@stellar/stellar-sdk'
+import { 
+  isConnected, 
+  getPublicKey, 
+  getNetworkDetails,
+  signTransaction 
+} from '@stellar/freighter-api'
 
-export const server = new Horizon.Server(env.NEXT_PUBLIC_STELLAR_HORIZON);
+const HORIZON_URL = process.env.NEXT_PUBLIC_STELLAR_HORIZON 
+  || 'https://horizon-testnet.stellar.org'
+const NETWORK_PASSPHRASE = Networks.TESTNET
+const server = new Server(HORIZON_URL)
 
-const ALGORITHM = 'aes-256-cbc';
+// ── 1. WALLET SETUP ──────────────────────────────────────────
 
-// Helper to get 32-byte key from whatever POLL_ENCRYPTION_KEY is provided
-const getEncryptionKey = () => crypto.createHash('sha256').update(env.POLL_ENCRYPTION_KEY).digest();
-
-export function encryptSecret(secret: string): string {
-  const iv = crypto.randomBytes(16);
-  const cipher = crypto.createCipheriv(ALGORITHM, getEncryptionKey(), iv);
-  let encrypted = cipher.update(secret, 'utf8', 'hex');
-  encrypted += cipher.final('hex');
-  return `${iv.toString('hex')}:${encrypted}`;
+export async function isFreighterInstalled(): Promise<boolean> {
+  const result = await isConnected();
+  return !result.error && result.isConnected;
 }
 
-export function decryptSecret(encrypted: string): string {
-  const [ivHex, encryptedText] = encrypted.split(':');
-  const iv = Buffer.from(ivHex, 'hex');
-  const decipher = crypto.createDecipheriv(ALGORITHM, getEncryptionKey(), iv);
-  let decrypted = decipher.update(encryptedText, 'hex', 'utf8');
-  decrypted += decipher.final('utf8');
-  return decrypted;
+export async function isFreighterConnected(): Promise<boolean> {
+  const result = await isConnected();
+  return !result.error && result.isConnected;
 }
 
-export function generateCollectorKeypair() {
-  const kp = Keypair.random();
-  return { publicKey: kp.publicKey(), secretKey: kp.secret() };
-}
-
-export async function fundWithFriendbot(publicKey: string) {
+export async function getFreighterNetwork(): Promise<string> {
   try {
-    const response = await fetch(`https://friendbot.stellar.org?addr=${encodeURIComponent(publicKey)}`);
-    if (!response.ok) throw new Error('Friendbot funding failed');
-    return { success: true };
-  } catch (err: any) {
-     return { success: false, error: err.message };
+    const details = await getNetworkDetails();
+    if (details.networkPassphrase === Networks.PUBLIC) return 'PUBLIC';
+    if (details.networkPassphrase === Networks.TESTNET) return 'TESTNET';
+    if (details.networkPassphrase === Networks.FUTURENET) return 'FUTURENET';
+    return 'UNKNOWN';
+  } catch {
+    return 'UNKNOWN';
   }
 }
 
-export async function getVotesFromHorizon(collectorWallet: string, options: any[]) {
+// ── 2. WALLET CONNECT / DISCONNECT ───────────────────────────
+
+export async function connectFreighter(): Promise<{
+  publicKey: string
+  network: string
+}> {
+  const installed = await isFreighterInstalled();
+  if (!installed) throw new Error('Freighter not installed');
+
   try {
-    const page = await server.payments()
-      .forAccount(collectorWallet)
-      .order('desc')
-      .limit(200)
-      .call();
+    const publicKey = await getPublicKey();
+    const network = await getFreighterNetwork();
+    if (network !== 'TESTNET') throw new Error('Please switch Freighter to Stellar Testnet');
+    return { publicKey, network };
+  } catch (error: any) {
+    if (error.message.includes('User rejected')) throw new Error('User rejected connection');
+    throw error;
+  }
+}
 
-    const payments = page.records as any[]; // the sdk returns objects mapping to Horizon API
-    
-    // Convert to tallies
-    let totalVotes = 0;
-    const tallyParams: Record<string, number> = {};
-    options.forEach(opt => tallyParams[opt.memo] = 0);
-    
-    const validPayments = [];
+export function disconnectWallet(): { success: boolean } {
+  return { success: true };
+}
 
-    for (const payment of payments) {
-      if (payment.type === 'payment' && payment.asset_type === 'native') {
-        const tx = await payment.transaction();
-        const memo = tx.memo;
-        if (memo && typeof memo === 'string' && Object.prototype.hasOwnProperty.call(tallyParams, memo)) {
-          tallyParams[memo] += 1;
-          totalVotes += 1;
-          validPayments.push({
-            txHash: payment.transaction_hash,
-            voterWallet: payment.from,
-            amount: parseFloat(payment.amount),
-            createdAt: payment.created_at,
-            memo: memo
-          });
-        }
-      }
+// ── 3. BALANCE HANDLING ───────────────────────────────────────
+
+export async function getXLMBalance(address: string): Promise<number> {
+  try {
+    const account = await server.loadAccount(address);
+    const nativeBalance = account.balances.find(b => b.asset_type === 'native');
+    return nativeBalance ? parseFloat(nativeBalance.balance) : 0;
+  } catch {
+    return 0;
+  }
+}
+
+export async function fundWithFriendbot(address: string): Promise<{
+  success: boolean,
+  message: string
+}> {
+  try {
+    const response = await fetch(`https://friendbot.stellar.org?addr=${address}`);
+    if (response.ok) return { success: true, message: 'Wallet funded with 10,000 XLM' };
+    const data = await response.json();
+    return { success: false, message: data.detail || 'Friendbot funding failed' };
+  } catch {
+    return { success: false, message: 'Network error funding wallet' };
+  }
+}
+
+// ── 4. TRANSACTION FLOW ───────────────────────────────────────
+
+export type SendXLMResult = 
+  | {
+      success: true
+      txHash: string
+      ledger: number
+      timestamp: string
+      amount: string
+      destination: string
+      fee: string
+    }
+  | {
+      success: false
+      error: string
+      code?: string
     }
 
-    const tally = options.map(opt => ({
-      ...opt,
-      count: tallyParams[opt.memo] || 0
-    }));
+export async function sendXLM(params: {
+  sourcePublicKey: string
+  destinationAddress: string
+  amountXLM: string
+  memo?: string
+}): Promise<SendXLMResult> {
+  try {
+    const sourceAccount = await server.loadAccount(params.sourcePublicKey);
+    const builder = new TransactionBuilder(sourceAccount, {
+      fee: BASE_FEE,
+      networkPassphrase: NETWORK_PASSPHRASE,
+    }).addOperation(
+      Operation.payment({
+        destination: params.destinationAddress,
+        asset: Asset.native(),
+        amount: params.amountXLM,
+      })
+    );
 
-    return { tally, totalVotes, payments: validPayments };
-  } catch (error) {
-    console.error('Error fetching votes', error);
-    return { tally: [], totalVotes: 0, payments: [] };
+    if (params.memo) builder.addMemo(Memo.text(params.memo));
+    const transaction = builder.setTimeout(30).build();
+    const xdr = transaction.toXDR();
+    const signedXdr = await signTransaction(xdr, { network: 'TESTNET' });
+    const result = await server.submitTransaction(signedXdr);
+
+    return {
+      success: true,
+      txHash: result.hash,
+      ledger: result.ledger,
+      timestamp: new Date().toISOString(),
+      amount: params.amountXLM,
+      destination: params.destinationAddress,
+      fee: (parseFloat(BASE_FEE) / 10000000).toString(),
+    };
+  } catch (error: any) {
+    return {
+      success: false,
+      error: parseStellarError(error),
+      code: error.response?.data?.extras?.result_codes?.transaction || 'error',
+    };
   }
 }
 
-export async function checkHasVoted(collectorWallet: string, voterWallet: string): Promise<boolean> {
+export function validateStellarAddress(address: string): {
+  valid: boolean,
+  error?: string
+} {
   try {
-    const page = await server.payments()
-      .forAccount(collectorWallet)
-      .order('desc')
-      .limit(100)
-      .call();
-
-    // Check if voterWallet sent to collectorWallet
-    const payments = page.records as any[];
-    return payments.some((p: any) => p.type === 'payment' && p.from === voterWallet);
-  } catch (e) {
-    return false;
+    Keypair.fromPublicKey(address);
+    return { valid: true };
+  } catch {
+    return { valid: false, error: 'Invalid Stellar address format' };
   }
 }
 
-export async function getTransactionDetail(txHash: string) {
+export async function getTransactionByHash(txHash: string): Promise<{
+  txHash: string
+  ledger: number
+  createdAt: string
+  sourceAccount: string
+  fee: string
+  memo?: string
+  successful: boolean
+} | null> {
   try {
-    const tx: any = await server.transactions().transaction(txHash).call();
+    const tx = await server.transactions().transaction(txHash).call();
     return {
       txHash: tx.hash,
-      memo: tx.memo,
+      ledger: tx.ledger_attr,
+      createdAt: tx.created_at,
       sourceAccount: tx.source_account,
-      createdAt: new Date(tx.created_at),
-      operationCount: tx.operation_count,
+      fee: tx.fee_value,
+      memo: tx.memo,
+      successful: tx.successful,
     };
-  } catch (e) {
+  } catch {
     return null;
   }
 }
 
-// Client-compatible freighter params stub structure
-export function buildVoteTxParams(voterWallet: string, collectorWallet: string, optionMemo: string) {
-  return {
-    collectorWallet,
-    optionMemo,
-    amount: "0.0000100",
-    network: 'TESTNET'
-  };
+export function parseStellarError(error: any): string {
+  const resultCodes = error.response?.data?.extras?.result_codes;
+  const mainCode = resultCodes?.transaction;
+  const opCode = resultCodes?.operations?.[0];
+
+  const errorMap: Record<string, string> = {
+    'op_underfunded': 'Insufficient XLM balance for this transaction',
+    'op_no_destination': 'Destination wallet does not exist on Stellar yet',
+    'tx_bad_seq': 'Transaction sequence error. Please try again.',
+    'op_low_reserve': 'Your wallet needs more XLM to meet the minimum reserve',
+    'tx_insufficient_fee': 'Transaction fee too low. Please try again.',
+  }
+
+  if (error.message === 'User rejected') return 'Transaction rejected in Freighter';
+  return errorMap[opCode] || errorMap[mainCode] || error.message || 'An unexpected Stellar error occurred';
 }
