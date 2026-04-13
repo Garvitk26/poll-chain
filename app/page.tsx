@@ -20,7 +20,7 @@ export default function LandingPage() {
             Live on Stellar Testnet
           </div>
           
-          <h1 className="text-5xl md:text-7xl font-bold text-slate-100 tracking-tight leading-tight mb-6">
+          <h1 className="text-3xl sm:text-5xl lg:text-7xl font-bold text-slate-100 tracking-tight leading-tight mb-6 italic">
             Voting that <span className="gradient-text">cannot</span> be changed.
           </h1>
           

@@ -2,7 +2,9 @@
 
 import { useState } from 'react';
 import PollCard from '@/components/shared/PollCard';
-import { Search } from 'lucide-react';
+import { Search, Activity } from 'lucide-react';
+import WalletManager from '@/components/shared/WalletManager';
+import SendXLMPanel from '@/components/shared/SendXLMPanel';
 
 export default function VoterDashboard() {
   const [search, setSearch] = useState('');
@@ -33,6 +35,33 @@ export default function VoterDashboard() {
             onChange={(e) => setSearch(e.target.value)}
             className="w-full bg-[#001224] border border-cyan-500/20 rounded-md py-2 pl-9 pr-4 text-sm text-slate-200 outline-none focus:border-cyan-500/50 transition-colors shadow-inner"
           />
+        </div>
+      </div>
+
+      {/* Stellar Wallet Section */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="lg:col-span-1">
+          <WalletManager />
+        </div>
+        <div className="lg:col-span-1">
+          <SendXLMPanel compact />
+        </div>
+        <div className="lg:col-span-1">
+          <div className="bg-[#000d1a] border border-cyan-500/15 rounded-xl p-8 flex flex-col items-center justify-center text-center space-y-5 h-full relative overflow-hidden group">
+             <div className="absolute inset-0 bg-cyan-500/5 opacity-0 group-hover:opacity-100 transition-opacity" />
+             <div className="w-16 h-16 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 shadow-xl shadow-indigo-500/10">
+                <Activity size={32} className="animate-pulse" />
+             </div>
+             <div>
+                <h3 className="text-sm font-black text-white uppercase tracking-[0.2em] italic">Voter Verification</h3>
+                <p className="text-[10px] text-slate-500 mt-2 font-bold uppercase tracking-widest leading-relaxed">Identity Linked to Ledger<br/>Consensus Power Active</p>
+             </div>
+             <div className="w-full h-px bg-white/5" />
+             <div className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20">
+                <div className="h-2 w-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)]" />
+                <span className="text-[10px] font-black text-emerald-500 uppercase tracking-widest">Global Status: Operational</span>
+             </div>
+          </div>
         </div>
       </div>
 

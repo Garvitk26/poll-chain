@@ -1,16 +1,44 @@
 'use client';
 
+import React, { useEffect, useState } from 'react';
 import { useSession, signOut } from 'next-auth/react';
 import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
-import { LayoutDashboard, PlusCircle, List, BarChart3, Settings, LogOut } from 'lucide-react';
+import { LayoutDashboard, PlusCircle, List, BarChart3, Settings, LogOut, AlertTriangle, ShieldCheck, Menu, X } from 'lucide-react';
 import DashboardSkeleton from '@/components/shared/DashboardSkeleton';
 import SessionWatcher from '@/components/shared/SessionWatcher';
+import WalletStatusBar from '@/components/shared/WalletStatusBar';
+import Level1StatusBadge from '@/components/shared/Level1StatusBadge';
+import { MobilePreviewBanner } from '@/components/shared/MobilePreviewBanner';
+import { cn } from '@/lib/utils';
+import { Networks } from '@stellar/stellar-sdk';
 
 export default function CreatorLayout({ children }: { children: React.ReactNode }) {
   const { data: session, status } = useSession();
   const router = useRouter();
   const pathname = usePathname();
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [wrongNetwork, setWrongNetwork] = useState(false);
+
+  useEffect(() => {
+    async function checkNetwork() {
+      if (typeof window === 'undefined') return
+      try {
+        const { getNetworkDetails } = await import('@stellar/freighter-api')
+        const details = await getNetworkDetails()
+        if (details.networkPassphrase !== Networks.TESTNET) {
+          setWrongNetwork(true)
+        } else {
+          setWrongNetwork(false)
+        }
+      } catch {
+        // Freighter not installed
+      }
+    }
+    checkNetwork()
+    const interval = setInterval(checkNetwork, 10000)
+    return () => clearInterval(interval)
+  }, [])
 
   if (status === 'loading') {
     return <DashboardSkeleton />;
@@ -35,14 +63,29 @@ export default function CreatorLayout({ children }: { children: React.ReactNode 
   ];
 
   return (
-    <div className="flex min-h-[calc(100vh-64px)] bg-[#00080f]">
+    <div className="flex min-h-screen bg-[#00080f] relative overflow-hidden">
       <SessionWatcher />
       
+      {/* Mobile Sidebar Overlay */}
+      {sidebarOpen && (
+        <div 
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[45] md:hidden"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+
       {/* Sidebar */}
-      <aside className="w-64 bg-[#000d1a] border-r border-cyan-500/10 hidden md:flex flex-col">
+      <aside className={cn(
+        "w-64 bg-[#000d1a] border-r border-cyan-500/10 flex flex-col shrink-0 transition-transform duration-300 z-50 overflow-y-auto",
+        "fixed inset-y-0 left-0 md:static md:translate-x-0",
+        sidebarOpen ? "translate-x-0" : "-translate-x-full"
+      )}>
         <div className="p-6">
-          <Link href="/" className="text-2xl font-bold gradient-text">
-            PollChain
+          <Link href="/" className="text-2xl font-black italic tracking-tighter flex items-center gap-2 group">
+            <div className="h-8 w-8 bg-cyan-600 rounded-lg flex items-center justify-center group-hover:rotate-12 transition-transform">
+               <ShieldCheck className="text-white w-5 h-5" />
+            </div>
+            <span className="gradient-text uppercase">PollChain</span>
           </Link>
         </div>
 
@@ -57,43 +100,63 @@ export default function CreatorLayout({ children }: { children: React.ReactNode 
                 className={`flex items-center gap-3 px-3 py-2.5 rounded-r-md border-l-2 transition-colors ${
                   isActive 
                     ? `${item.activeBg} ${item.activeBorder} text-slate-100` 
-                    : 'border-transparent text-slate-400 hover:bg-slate-800/50 hover:text-slate-200'
+                    : 'border-transparent text-slate-400 hover:bg-white/5 hover:text-slate-200'
                 }`}
               >
                 <item.icon className={`w-5 h-5 ${isActive ? item.color : ''}`} />
-                <span className="font-medium text-sm">{item.label}</span>
+                <span className="font-bold text-xs uppercase tracking-widest leading-none">{item.label}</span>
               </Link>
             );
           })}
         </nav>
 
-        <div className="p-4 border-t border-cyan-500/10">
+        <div className="p-4 border-t border-cyan-500/10 bg-black/20">
           <div className="flex items-center gap-3 mb-4 px-2">
             <div 
-              className="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold"
+              className="w-10 h-10 rounded-xl flex items-center justify-center text-white font-black border border-white/10 italic shadow-lg"
               style={{ backgroundColor: session.user.avatarColor || '#06b6d4' }}
             >
               {session.user.name?.charAt(0).toUpperCase()}
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium text-slate-200 truncate">{session.user.name}</p>
-              <p className="text-xs text-slate-500 truncate">{session.user.email}</p>
+              <p className="text-sm font-black text-slate-200 truncate uppercase tracking-tight">{session.user.name}</p>
+              <p className="text-[10px] text-slate-500 truncate uppercase font-bold">Protocol Creator</p>
             </div>
           </div>
           <button 
             onClick={() => signOut({ callbackUrl: '/login' })}
-            className="w-full flex items-center gap-2 text-sm text-rose-400 hover:text-rose-300 hover:bg-rose-500/10 px-3 py-2 rounded-md transition-colors"
+            className="w-full flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-rose-400 hover:text-rose-300 hover:bg-rose-500/10 px-3 py-2.5 rounded-xl transition-all border border-transparent hover:border-rose-500/20"
           >
             <LogOut className="w-4 h-4" />
-            Sign Out
+            Purge Session
           </button>
         </div>
       </aside>
 
-      {/* Main Content */}
-      <main className="flex-1 min-w-0 flex flex-col pt-4 md:pt-8 px-4 md:px-8 pb-12">
-        {children}
-      </main>
+      {/* Main Content Area */}
+      <div className="flex-1 flex flex-col overflow-hidden relative z-10 w-full">
+        {/* Mobile Toggle */}
+        <button 
+          onClick={() => setSidebarOpen(!sidebarOpen)}
+          className="fixed top-20 left-4 z-[60] bg-cyan-600 text-white p-2 rounded-lg md:hidden shadow-lg border border-cyan-400/50"
+        >
+          {sidebarOpen ? <X size={20} /> : <Menu size={20} />}
+        </button>
+        {wrongNetwork && (
+          <div className="w-full bg-rose-600 text-white py-2 px-4 flex items-center justify-center gap-2 z-[100] animate-in slide-in-from-top duration-300">
+            <AlertTriangle className="h-4 w-4" />
+            <span className="text-xs font-bold uppercase tracking-wider text-center">
+              Wrong Network: Switch Freighter to Stellar Testnet to use PollChain
+            </span>
+          </div>
+        )}
+        <WalletStatusBar />
+        <main className="flex-1 overflow-y-auto pt-4 md:pt-8 px-4 md:px-8 pb-12">
+          {children}
+        </main>
+      </div>
+      <Level1StatusBadge />
+      <MobilePreviewBanner />
     </div>
   );
 }

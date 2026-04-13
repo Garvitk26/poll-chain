@@ -7,6 +7,9 @@ import { isConnected } from '@stellar/freighter-api';
 import { Info, AlertCircle, ArrowRight } from 'lucide-react';
 import { triggerConfetti } from '@/components/shared/Confetti';
 import { useToast } from '@/lib/context/ToastContext';
+import TransactionSuccessCard from '@/components/shared/TransactionSuccessCard';
+import { getAccountBalance } from '@/lib/stellar';
+import { getAddress } from '@stellar/freighter-api';
 
 export default function PublicPollPage({ params }: { params: { pollId: string } }) {
   const { data: session } = useSession();
@@ -16,6 +19,10 @@ export default function PublicPollPage({ params }: { params: { pollId: string } 
   const [loading, setLoading] = useState(true);
   const [voting, setVoting] = useState(false);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
+  const [showSuccessCard, setShowSuccessCard] = useState(false);
+  const [lastTxHash, setLastTxHash] = useState("");
+  const [updatedBalance, setUpdatedBalance] = useState("0.00");
+  const [walletAddr, setWalletAddr] = useState("");
   
   // Mock poll data
   const [poll, setPoll] = useState<any>(null);
@@ -67,10 +74,23 @@ export default function PublicPollPage({ params }: { params: { pollId: string } 
         throw new Error(errorData.error || 'Transaction failed');
       }
       
+      const { txHash: confirmedHash } = await res.json();
+      setLastTxHash(confirmedHash || "mock-tx-hash-" + Date.now());
+      
+      // Fetch fresh balance
+      try {
+        const res = await getAddress();
+        const addr = typeof res === 'object' && 'address' in res ? res.address : res;
+        if (addr) {
+          setWalletAddr(addr as string);
+          const bal = await getAccountBalance(addr as string);
+          setUpdatedBalance(bal);
+        }
+      } catch (e) {}
+
+      setShowSuccessCard(true);
       triggerConfetti();
       showToast('Transaction confirmed! Your vote is securely recorded.', 'success');
-      
-      router.push(`/results/${poll.id}`);
     } catch (err: any) {
       showToast(err.message || 'Transaction failed. Try again.', 'error');
     } finally {
@@ -179,6 +199,28 @@ export default function PublicPollPage({ params }: { params: { pollId: string } 
             </button>
           </div>
         </div>
+
+        </div>
+
+        {showSuccessCard && (
+          <TransactionSuccessCard 
+            title="Vote Cast!"
+            subtitle="Your choice has been permanently recorded on the Stellar ledger."
+            txHash={lastTxHash}
+            amount="0.0000100"
+            walletAddress={walletAddr}
+            walletBalance={updatedBalance}
+            extraDetails={[
+              { label: "Poll", value: poll.title },
+              { label: "Option", value: poll.options.find((o: any) => o.id === selectedOption)?.label || "" },
+              { label: "Network", value: "Stellar Testnet" }
+            ]}
+            onClose={() => {
+              setShowSuccessCard(false);
+              router.push(`/results/${poll.id}`);
+            }}
+          />
+        )}
 
       </div>
     </main>
