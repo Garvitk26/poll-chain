@@ -8,7 +8,7 @@ import DashboardSkeleton from '@/components/shared/DashboardSkeleton';
 import SessionWatcher from '@/components/shared/SessionWatcher';
 import WalletButton from '@/components/shared/WalletButton';
 import WalletStatusBar from '@/components/shared/WalletStatusBar';
-import { AlertTriangle, ShieldCheck } from 'lucide-react';
+import { AlertTriangle, ShieldCheck, LogOut } from 'lucide-react';
 import { Networks } from '@stellar/stellar-sdk';
 
 export default function VoterLayout({ children }: { children: React.ReactNode }) {
@@ -98,6 +98,16 @@ export default function VoterLayout({ children }: { children: React.ReactNode })
             >
               {session.user.name?.charAt(0).toUpperCase()}
             </div>
+            
+            {/* Mobile / Tablet Logout Icon */}
+            <button 
+              onClick={() => signOut({ callbackUrl: '/login' })}
+              className="lg:hidden p-2 text-slate-500 hover:text-rose-400 transition-colors"
+              title="Logout"
+            >
+              <LogOut className="w-5 h-5" />
+            </button>
+
             <div className="hidden lg:block text-right">
                 <p className="text-xs font-black text-slate-200 uppercase leading-none mb-1">{session.user.name}</p>
                 <div className="flex items-center gap-2">
