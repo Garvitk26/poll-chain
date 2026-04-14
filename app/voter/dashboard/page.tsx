@@ -72,7 +72,7 @@ export default function VoterDashboard() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filtered.map(poll => (
-          <PollCard key={poll.id} poll={poll} />
+          <PollCard key={poll._id} poll={poll} />
         ))}
         {filtered.length === 0 && (
           <div className="col-span-full py-12 text-center text-slate-500 bg-[#000d1a] border border-rose-500/10 rounded-xl">

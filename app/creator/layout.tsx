@@ -126,7 +126,7 @@ export default function CreatorLayout({ children }: { children: React.ReactNode 
             className="w-full flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-rose-400 hover:text-rose-300 hover:bg-rose-500/10 px-3 py-2.5 rounded-xl transition-all border border-transparent hover:border-rose-500/20"
           >
             <LogOut className="w-4 h-4" />
-            Purge Session
+            Logout of Protocol
           </button>
         </div>
       </aside>

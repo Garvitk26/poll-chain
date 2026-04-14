@@ -97,6 +97,7 @@ export default function PublicPollPage({ params }: { params: { pollId: string } 
         setWalletAddr(address);
       } catch (e) {}
 
+      // SHOW SUCCESS CARD IMMEDIATELY AFTER XLM SUCCESS
       setShowSuccessCard(true);
       triggerConfetti();
       showToast('Transaction confirmed! Your vote is securely recorded.', 'success');

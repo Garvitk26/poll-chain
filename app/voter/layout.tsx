@@ -100,7 +100,16 @@ export default function VoterLayout({ children }: { children: React.ReactNode })
             </div>
             <div className="hidden lg:block text-right">
                 <p className="text-xs font-black text-slate-200 uppercase leading-none mb-1">{session.user.name}</p>
-                <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Consensus Voter</p>
+                <div className="flex items-center gap-2">
+                  <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest leading-none">Consensus Voter</p>
+                  <span className="text-slate-700 font-bold">•</span>
+                  <button 
+                    onClick={() => signOut({ callbackUrl: '/login' })}
+                    className="text-[10px] font-black text-rose-400 hover:text-rose-300 uppercase tracking-widest transition-colors leading-none"
+                  >
+                    Logout
+                  </button>
+                </div>
             </div>
           </div>
         </div>

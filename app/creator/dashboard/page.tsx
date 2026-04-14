@@ -97,7 +97,7 @@ export default function CreatorDashboard() {
           </div>
           <div className="grid sm:grid-cols-2 gap-4">
             {recentPolls.map(poll => (
-              <PollCard key={poll.id} poll={poll} compact={true} />
+              <PollCard key={poll._id} poll={poll} compact={true} />
             ))}
           </div>
         </div>
