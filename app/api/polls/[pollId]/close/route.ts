@@ -15,7 +15,7 @@ export async function POST(request: Request, { params }: { params: { pollId: str
     }
 
     await connectDB();
-    const poll = await Poll.findOne({ _id: params.pollId, creatorId: session.user.id });
+    const poll = await Poll.findOne({ _id: params.pollId, creatorId: session.user.id }).select('+collectorSecretEncrypted');
     
     if (!poll) return NextResponse.json({ error: 'Not Found' }, { status: 404 });
     

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 
 export const dynamic = 'force-dynamic';
@@ -8,12 +8,18 @@ export const dynamic = 'force-dynamic';
 export default function CreatorPollsPage() {
   const [filter, setFilter] = useState<'all' | 'active' | 'draft' | 'closed'>('all');
 
-  // Stub data for now since we don't have the API endpoint built yet
-  const polls = [
-    { id: '1', title: 'Q3 Product Priorities', status: 'active', optionsCount: 4, totalVotes: 142, created: new Date(), closesAt: new Date(Date.now() + 86400000) },
-    { id: '2', title: 'New Logo Options', status: 'draft', optionsCount: 3, totalVotes: 0, created: new Date() },
-    { id: '3', title: 'Q2 All-Hands Feedback', status: 'closed', optionsCount: 5, totalVotes: 89, created: new Date(Date.now() - 86400000) },
-  ];
+  const [polls, setPolls] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch('/api/polls')
+      .then(res => res.json())
+      .then(data => {
+        setPolls(data.polls || []);
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
+  }, []);
 
   const filteredPolls = filter === 'all' 
     ? polls 

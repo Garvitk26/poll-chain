@@ -24,28 +24,18 @@ export default function PublicPollPage({ params }: { params: { pollId: string } 
   const [updatedBalance, setUpdatedBalance] = useState("0.00");
   const [walletAddr, setWalletAddr] = useState("");
   
-  // Mock poll data
   const [poll, setPoll] = useState<any>(null);
 
   useEffect(() => {
-    // Stub fetch
-    setTimeout(() => {
-      setPoll({
-        id: params.pollId,
-        title: 'New Feature Prioritization',
-        description: 'Which feature should our engineering team tackle next sprint? Focus on value proposition versus implementation cost.',
-        status: 'active',
-        creatorName: 'System Admin',
-        collectorWallet: 'GCK...',
-        options: [
-          { id: 'opt1', label: 'Dark Mode Themes', memo: 'DARK_MODE' },
-          { id: 'opt2', label: 'Multi-signature Wallets', memo: 'MULTI_SIG' },
-          { id: 'opt3', label: 'Mobile App Beta', memo: 'MOBILE_BETA' },
-        ],
-        requireWallet: true,
-      });
-      setLoading(false);
-    }, 800);
+    fetch(`/api/polls/${params.pollId}`)
+      .then(res => res.json())
+      .then(data => {
+        if (data.poll) {
+          setPoll(data.poll);
+        }
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
   }, [params.pollId]);
 
   const handleVote = async () => {

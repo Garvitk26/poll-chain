@@ -8,16 +8,28 @@ import SendXLMPanel from '@/components/shared/SendXLMPanel';
 import { Activity } from 'lucide-react';
 
 export default function CreatorDashboard() {
+  const [polls, setPolls] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch('/api/polls')
+      .then(res => res.json())
+      .then(data => {
+        setPolls(data.polls || []);
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
+  }, []);
+
+  const totalVotes = polls.reduce((acc, p) => acc + (p.totalVotes || 0), 0);
+  
   const stats = [
-    { label: 'Total Active Polls', value: '3', icon: Zap, color: 'text-rose-400', bg: 'bg-rose-500/10' },
-    { label: 'Total Ballots Cast', value: '1,284', icon: Users, color: 'text-violet-400', bg: 'bg-violet-500/10' },
-    { label: 'Avg Engagement Rate', value: '64%', icon: BarChart3, color: 'text-violet-400', bg: 'bg-violet-500/10' },
+    { label: 'Total Active Polls', value: polls.filter(p => p.status === 'active').length.toString(), icon: Zap, color: 'text-rose-400', bg: 'bg-rose-500/10' },
+    { label: 'Total Ballots Cast', value: totalVotes.toLocaleString(), icon: Users, color: 'text-violet-400', bg: 'bg-violet-500/10' },
+    { label: 'Avg Engagement Rate', value: polls.length > 0 ? `${Math.round((totalVotes / (polls.length * 100)) * 100)}%` : '0%', icon: BarChart3, color: 'text-violet-400', bg: 'bg-violet-500/10' },
   ];
 
-  const recentPolls = [
-    { id: '1', title: 'Q3 Product Priorities', status: 'active', optionsCount: 4, totalVotes: 142, created: new Date(), options: [{id:'1',label:'UI Sync'}, {id:'2',label:'Speed'}] },
-    { id: '3', title: 'Q2 All-Hands Feedback', status: 'closed', optionsCount: 5, totalVotes: 89, created: new Date(Date.now() - 86400000), options: [{id:'1',label:'Yes'}, {id:'2',label:'No'}] },
-  ];
+  const recentPolls = polls.slice(0, 4);
 
   return (
     <div className="space-y-8 animate-[fadeIn_0.5s_ease-out]">

@@ -10,22 +10,42 @@ export default function ActivePollManagement({ params }: { params: { pollId: str
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Stub fetch
-    setTimeout(() => {
-      setPoll({
-        id: params.pollId,
-        title: 'Q3 Strategic Pivot',
-        status: 'active',
-        collectorWallet: 'GDOOHT6LDR2V...',
-        totalVotes: 142,
-        options: [
-           { id: '1', label: 'Proceed with Pivot', memo: 'PIVOT_YES' },
-           { id: '2', label: 'Delay to Q4', memo: 'PIVOT_NO' }
-        ]
-      });
-      setLoading(false);
-    }, 600);
+    const fetchPoll = async () => {
+      try {
+        const res = await fetch(`/api/polls/${params.pollId}`);
+        const data = await res.json();
+        if (data.poll) setPoll(data.poll);
+      } catch (err) {
+        console.error('Fetch error:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchPoll();
   }, [params.pollId]);
+
+  const handleClose = async () => {
+    if (!confirm('Are you sure you want to close this poll? This will finalize all on-chain results.')) return;
+    try {
+      const res = await fetch(`/api/polls/${params.pollId}/close`, { method: 'POST' });
+      const data = await res.json();
+      if (data.success) {
+        setPoll({ ...poll, status: 'closed' });
+      }
+    } catch (err) {
+      alert('Failed to close poll');
+    }
+  };
+
+  const handleDelete = async () => {
+    if (!confirm('Permanently delete this poll record? Actions cannot be reversed.')) return;
+    try {
+      const res = await fetch(`/api/polls/${params.pollId}`, { method: 'DELETE' });
+      if (res.ok) window.location.href = '/creator/polls';
+    } catch (err) {
+      alert('Failed to delete poll');
+    }
+  };
 
   if (loading) return <DashboardSkeleton />;
   if (!poll) return <p className="text-rose-500">Not found</p>;
@@ -42,9 +62,12 @@ export default function ActivePollManagement({ params }: { params: { pollId: str
           <h1 className="text-2xl font-bold text-slate-100">{poll.title}</h1>
         </div>
         <div className="flex gap-3">
-          <button className="btn-secondary py-2 px-4 shadow-none">View Results</button>
+          <button className="btn-secondary py-2 px-4 shadow-none" onClick={() => window.location.href=`/results/${poll._id}`}>View Results</button>
           {poll.status === 'active' && (
-             <button className="bg-rose-500/10 text-rose-400 hover:bg-rose-500/20 border border-rose-500/30 rounded-md px-4 py-2 text-sm font-medium transition-colors flex items-center gap-2">
+             <button 
+               onClick={handleClose}
+               className="bg-rose-500/10 text-rose-400 hover:bg-rose-500/20 border border-rose-500/30 rounded-md px-4 py-2 text-sm font-medium transition-colors flex items-center gap-2"
+             >
                <Lock className="w-4 h-4" /> Close Poll
              </button>
           )}
@@ -104,7 +127,10 @@ export default function ActivePollManagement({ params }: { params: { pollId: str
               <FileX className="w-4 h-4" /> Danger Zone
             </h2>
             <p className="text-xs text-slate-400 mb-4">Deleting this off-chain tracking record will drop visibility from the dashboard, but you cannot delete the immutable Stellar transactions.</p>
-            <button className="w-full py-2 bg-transparent border border-rose-500/30 text-rose-400 hover:bg-rose-500/10 rounded text-sm transition-colors font-medium">
+            <button 
+              onClick={handleDelete}
+              className="w-full py-2 bg-transparent border border-rose-500/30 text-rose-400 hover:bg-rose-500/10 rounded text-sm transition-colors font-medium"
+            >
               Delete Record
             </button>
           </div>

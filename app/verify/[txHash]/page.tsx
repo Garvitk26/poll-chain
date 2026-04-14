@@ -11,20 +11,17 @@ export default function VerifyPage({ params }: { params: { txHash: string } }) {
 
   useEffect(() => {
     const fetchTx = async () => {
-      // Stub Horizon fetch
-      setTimeout(() => {
-        setTx({
-           hash: params.txHash,
-           status: 'success',
-           ledger: 83921004,
-           createdAt: new Date(Date.now() - 1200000),
-           sourceAccount: 'GBABCD...',
-           feeCharged: 100,
-           memo: 'DARK_MODE',
-           memoType: 'text',
-        });
+      try {
+        const res = await fetch(`/api/verify/${params.txHash}`);
+        if (res.ok) {
+          const data = await res.json();
+          setTx(data.tx);
+        }
+      } catch (err) {
+        console.error('Fetch error:', err);
+      } finally {
         setLoading(false);
-      }, 1000);
+      }
     };
     fetchTx();
   }, [params.txHash]);

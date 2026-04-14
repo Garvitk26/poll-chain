@@ -200,3 +200,69 @@ export function parseStellarError(error: any): string {
   if (error.message === 'User rejected') return 'Transaction rejected in Freighter';
   return errorMap[opCode] || errorMap[mainCode] || error.message || 'An unexpected Stellar error occurred';
 }
+
+// ── 5. ADVANCED INTEGRATION (COLLECTORS & VOTES) ───────────
+
+import crypto from 'crypto';
+
+const ENCRYPTION_KEY = process.env.POLL_ENCRYPTION_KEY || 'default-key-32-chars-long-!!!';
+const ALGORITHM = 'aes-256-gcm';
+
+export function generateCollectorKeypair() {
+  const kp = Keypair.random();
+  return {
+    publicKey: kp.publicKey(),
+    secretKey: kp.secret()
+  };
+}
+
+export function encryptSecret(secret: string): string {
+  const iv = crypto.randomBytes(12);
+  const cipher = crypto.createCipheriv(ALGORITHM, Buffer.from(ENCRYPTION_KEY, 'hex'), iv);
+  let encrypted = cipher.update(secret, 'utf8', 'hex');
+  encrypted += cipher.final('hex');
+  const authTag = cipher.getAuthTag().toString('hex');
+  return `${iv.toString('hex')}:${authTag}:${encrypted}`;
+}
+
+export function decryptSecret(encryptedData: string): string {
+  const [ivHex, authTagHex, encryptedText] = encryptedData.split(':');
+  const iv = Buffer.from(ivHex, 'hex');
+  const authTag = Buffer.from(authTagHex, 'hex');
+  const decipher = crypto.createDecipheriv(ALGORITHM, Buffer.from(ENCRYPTION_KEY, 'hex'), iv);
+  decipher.setAuthTag(authTag);
+  let decrypted = decipher.update(encryptedText, 'hex', 'utf8');
+  decrypted += decipher.final('utf8');
+  return decrypted;
+}
+
+export async function getTransactionDetail(txHash: string) {
+  return getTransactionByHash(txHash);
+}
+
+export async function getVotesFromHorizon(collectorWallet: string, options: any[]) {
+  try {
+    const transactions = await server.transactions().forAccount(collectorWallet).limit(200).order('desc').call();
+    const votes = transactions.records.filter(tx => tx.successful && tx.memo_type === 'text');
+    
+    // Tally results
+    const tally = options.map(opt => ({
+      ...opt,
+      votes: votes.filter(v => v.memo === opt.memo).length
+    }));
+
+    return {
+      tally,
+      totalVotes: votes.length,
+      votes: votes.map(v => ({
+        txHash: v.hash,
+        voterWallet: v.source_account,
+        optionMemo: v.memo,
+        createdAt: v.created_at
+      }))
+    };
+  } catch (error) {
+    console.error('getVotesFromHorizon error:', error);
+    return { tally: options.map(o => ({ ...o, votes: 0 })), totalVotes: 0, votes: [] };
+  }
+}

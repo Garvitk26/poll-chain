@@ -58,12 +58,28 @@ export default function NewPollPage() {
     }
 
     setLoading(true);
-    // Simulate API creation
-    setTimeout(() => {
+    try {
+      const res = await fetch('/api/polls', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ...formData,
+          options
+        })
+      });
+      
+      const data = await res.json();
+      if (res.ok) {
+        showToast('Poll successfully deployed to network!', 'success');
+        router.push(`/creator/polls/${data.poll._id}`);
+      } else {
+        showToast(data.error || 'Failed to create poll', 'error');
+      }
+    } catch (err) {
+      showToast('A network error occurred', 'error');
+    } finally {
       setLoading(false);
-      showToast('Poll successfully deployed to network!', 'success');
-      router.push('/creator/polls/new_deployed_123');
-    }, 1500);
+    }
   };
 
   return (

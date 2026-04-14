@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { ArrowLeft, Share2 } from 'lucide-react';
 import VoteChart from '@/components/shared/VoteChart';
 import LiveVoteFeed from '@/components/shared/LiveVoteFeed';
+import { useLiveResults } from '@/hooks/useLiveResults';
 import DashboardSkeleton from '@/components/shared/DashboardSkeleton';
 import QRCodeDisplay from '@/components/shared/QRCodeDisplay';
 
@@ -12,31 +13,19 @@ export default function ResultsPage({ params }: { params: { pollId: string } }) 
   const [poll, setPoll] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<'chart' | 'feed' | 'share'>('chart');
+  
+  const { votes, results, totalVotes, loading: resultsLoading } = useLiveResults(params.pollId);
 
   useEffect(() => {
-    // Stub fetch
-    setTimeout(() => {
-      setPoll({
-        id: params.pollId,
-        title: 'New Feature Prioritization',
-        description: 'Which feature should our engineering team tackle next sprint? Focus on value proposition versus implementation cost.',
-        status: 'active',
-        creatorName: 'System Admin',
-        collectorWallet: 'GCK...',
-        options: [
-          { id: 'opt1', label: 'Dark Mode Themes', memo: 'DARK_MODE' },
-          { id: 'opt2', label: 'Multi-signature Wallets', memo: 'MULTI_SIG' },
-          { id: 'opt3', label: 'Mobile App Beta', memo: 'MOBILE_BETA' },
-        ],
-        _votes: Array.from({ length: 45 }).map((_, i) => ({
-           id: `v${i}`,
-           optionId: ['opt1', 'opt2', 'opt3'][Math.floor(Math.random() * 3)],
-           createdAt: new Date(Date.now() - Math.random() * 100000)
-        })),
-        requireWallet: true,
-      });
-      setLoading(false);
-    }, 800);
+    fetch(`/api/polls/${params.pollId}`)
+      .then(res => res.json())
+      .then(data => {
+        if (data.poll) {
+          setPoll(data.poll);
+        }
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
   }, [params.pollId]);
 
   if (loading) {
@@ -77,7 +66,7 @@ export default function ResultsPage({ params }: { params: { pollId: string } }) 
           </div>
           <div className="flex flex-col items-start md:items-end p-4 bg-[#000d1a] rounded-xl border border-violet-500/10">
             <span className="text-xs text-slate-500 uppercase font-semibold tracking-wider">Total Ballots Cast</span>
-            <span className="text-3xl font-mono text-rose-400 font-bold">{poll._votes?.length || 0}</span>
+            <span className="text-3xl font-mono text-rose-400 font-bold">{totalVotes}</span>
           </div>
         </div>
 
@@ -106,7 +95,7 @@ export default function ResultsPage({ params }: { params: { pollId: string } }) 
           <div className="p-6 md:p-8 min-h-[400px]">
             {activeTab === 'chart' && (
               <div className="max-w-3xl mx-auto">
-                <VoteChart options={poll.options} votes={poll._votes || []} animate={true} />
+                <VoteChart options={poll.options} votes={votes || []} animate={true} />
               </div>
             )}
             

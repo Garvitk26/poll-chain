@@ -8,15 +8,20 @@ import SendXLMPanel from '@/components/shared/SendXLMPanel';
 
 export default function VoterDashboard() {
   const [search, setSearch] = useState('');
+  const [polls, setPolls] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  // Stub data
-  const explorePolls = [
-    { id: '1', title: 'Network Protocol Upgrade v2.0', description: 'Should we decrease the base reserve requirement from 0.5 XLM to 0.1 XLM to encourage wider testnet adoption?', status: 'active', optionsCount: 2, totalVotes: 512 },
-    { id: '2', title: 'Community Funding Distribution', description: 'Which project category should receive the bulk of the treasury allocation this quarter?', status: 'active', optionsCount: 4, totalVotes: 1204 },
-    { id: '3', title: 'DeFi Liquidity Pools', description: 'Should we incentivize AMM pairs with a temporary fee reduction?', status: 'closed', optionsCount: 2, totalVotes: 304 },
-  ];
+  useEffect(() => {
+    fetch('/api/polls/explore')
+      .then(res => res.json())
+      .then(data => {
+        setPolls(data.polls || []);
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
+  }, []);
 
-  const filtered = explorePolls.filter(p => p.title.toLowerCase().includes(search.toLowerCase()));
+  const filtered = polls.filter(p => p.title.toLowerCase().includes(search.toLowerCase()));
 
   return (
     <div className="space-y-8 animate-[fadeIn_0.5s_ease-out]">
