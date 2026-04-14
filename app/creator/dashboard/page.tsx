@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { ArrowUpRight, BarChart3, Users, Zap } from 'lucide-react';
 import PollCard from '@/components/shared/PollCard';

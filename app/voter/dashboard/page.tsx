@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import PollCard from '@/components/shared/PollCard';
 import { Search, Activity } from 'lucide-react';
 import WalletManager from '@/components/shared/WalletManager';
@@ -21,7 +21,7 @@ export default function VoterDashboard() {
       .catch(() => setLoading(false));
   }, []);
 
-  const filtered = polls.filter(p => p.title.toLowerCase().includes(search.toLowerCase()));
+  const filtered = polls.filter(p => (p.title || '').toLowerCase().includes(search.toLowerCase()));
 
   return (
     <div className="space-y-8 animate-[fadeIn_0.5s_ease-out]">

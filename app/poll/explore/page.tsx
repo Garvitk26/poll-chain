@@ -20,7 +20,7 @@ export default function ExplorePolls() {
       .catch(() => setLoading(false));
   }, []);
 
-  const filtered = polls.filter(p => p.title.toLowerCase().includes(search.toLowerCase()));
+  const filtered = polls.filter(p => (p.title || '').toLowerCase().includes(search.toLowerCase()));
 
   return (
     <main className="min-h-[calc(100vh-64px)] py-12 px-4 md:px-8 bg-[#00080f]">

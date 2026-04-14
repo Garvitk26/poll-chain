@@ -87,7 +87,7 @@ export default function VerifyPage({ params }: { params: { txHash: string } }) {
               <div className="flex flex-col gap-1">
                 <span className="text-sm text-slate-400">Timestamp</span>
                 <span className="font-medium text-slate-200 text-sm">
-                  {tx.createdAt.toLocaleString()} <span className="text-xs text-slate-500 ml-1">({formatDistanceToNow(tx.createdAt)} ago)</span>
+                  {new Date(tx.createdAt).toLocaleString()} <span className="text-xs text-slate-500 ml-1">({formatDistanceToNow(new Date(tx.createdAt))} ago)</span>
                 </span>
               </div>
             </div>
