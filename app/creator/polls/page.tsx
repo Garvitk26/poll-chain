@@ -63,7 +63,7 @@ export default function CreatorPollsPage() {
           </thead>
           <tbody className="divide-y divide-rose-500/10 text-slate-300">
             {filteredPolls.map((poll) => (
-              <tr key={poll.id} className="hover:bg-rose-500/5 transition-colors">
+              <tr key={poll._id} className="hover:bg-rose-500/5 transition-colors">
                 <td className="px-6 py-4 font-medium text-slate-200">{poll.title}</td>
                 <td className="px-6 py-4">
                   <span className={`badge ${
@@ -76,20 +76,15 @@ export default function CreatorPollsPage() {
                 </td>
                 <td className="px-6 py-4">{poll.optionsCount}</td>
                 <td className="px-6 py-4 font-mono text-rose-400">{poll.totalVotes}</td>
-                <td className="px-6 py-4 flex gap-3 text-xs">
-                  {poll.status === 'active' && (
-                    <Link href={`/results/${poll.id}`} className="text-rose-400 hover:text-rose-300">
+                <td className="px-6 py-4 flex gap-3 text-xs text-rose-400 font-bold uppercase tracking-widest">
+                  {(poll.status === 'active' || poll.status === 'closed') && (
+                    <Link href={`/results/${poll._id}`} className="hover:text-rose-300 transition-colors">
                       View Results
                     </Link>
                   )}
                   {poll.status === 'draft' && (
-                    <Link href={`/creator/polls/${poll.id}`} className="text-violet-400 hover:text-violet-300">
+                    <Link href={`/creator/polls/${poll._id}`} className="hover:text-violet-300 transition-colors text-violet-400">
                       Manage
-                    </Link>
-                  )}
-                  {poll.status === 'closed' && (
-                    <Link href={`/results/${poll.id}`} className="text-violet-400 hover:text-violet-300">
-                      View Results
                     </Link>
                   )}
                 </td>
