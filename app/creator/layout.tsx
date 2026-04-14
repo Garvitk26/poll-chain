@@ -8,8 +8,6 @@ import { LayoutDashboard, PlusCircle, List, BarChart3, Settings, LogOut, AlertTr
 import DashboardSkeleton from '@/components/shared/DashboardSkeleton';
 import SessionWatcher from '@/components/shared/SessionWatcher';
 import WalletStatusBar from '@/components/shared/WalletStatusBar';
-import Level1StatusBadge from '@/components/shared/Level1StatusBadge';
-import { MobilePreviewBanner } from '@/components/shared/MobilePreviewBanner';
 import { cn } from '@/lib/utils';
 import { Networks } from '@stellar/stellar-sdk';
 
@@ -154,8 +152,6 @@ export default function CreatorLayout({ children }: { children: React.ReactNode 
           {children}
         </main>
       </div>
-      <Level1StatusBadge />
-      <MobilePreviewBanner />
     </div>
   );
 }

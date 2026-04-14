@@ -1,13 +1,22 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Settings, Lock, FileX, Download } from 'lucide-react';
+import { Settings, Lock, FileX, Download, Copy, CheckCircle2 } from 'lucide-react';
 import QRCodeDisplay from '@/components/shared/QRCodeDisplay';
 import DashboardSkeleton from '@/components/shared/DashboardSkeleton';
 
 export default function ActivePollManagement({ params }: { params: { pollId: string } }) {
   const [poll, setPoll] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = () => {
+    if (poll?.collectorWallet) {
+      navigator.clipboard.writeText(poll.collectorWallet);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
+  };
 
   useEffect(() => {
     const fetchPoll = async () => {
@@ -86,7 +95,16 @@ export default function ActivePollManagement({ params }: { params: { pollId: str
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               <div className="space-y-1">
                 <span className="text-xs text-slate-500 uppercase tracking-widest font-semibold">Collector Address</span>
-                <p className="font-mono text-sm text-rose-400 bg-rose-900/10 border border-rose-500/20 p-2 rounded truncate select-all">{poll.collectorWallet}</p>
+                <div className="flex items-center gap-2">
+                  <p className="font-mono text-sm text-rose-400 bg-rose-900/10 border border-rose-500/20 p-2 rounded truncate flex-1 select-all">{poll.collectorWallet}</p>
+                  <button 
+                    onClick={handleCopy}
+                    className="p-2.5 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/30 rounded-md transition-colors"
+                    title="Copy Address"
+                  >
+                    {copied ? <CheckCircle2 className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4" />}
+                  </button>
+                </div>
               </div>
               <div className="space-y-1">
                 <span className="text-xs text-slate-500 uppercase tracking-widest font-semibold">Total Votes Received</span>

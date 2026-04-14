@@ -13,13 +13,15 @@ export async function GET(request: Request) {
       .sort({ createdAt: -1 })
       .limit(50);
       
-    // Transform options to include optionsCount needed by UI
+    // Return all necessary fields for the UI (PollCard needs options for badges)
     const transformed = polls.map((p: any) => ({
+       _id: p._id.toString(),
        id: p._id.toString(),
        title: p.title,
        description: p.description,
        status: p.status,
        totalVotes: p.totalVotes,
+       options: p.options || [],
        optionsCount: p.options?.length || 0,
        createdAt: p.createdAt
     }));

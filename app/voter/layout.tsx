@@ -8,8 +8,6 @@ import DashboardSkeleton from '@/components/shared/DashboardSkeleton';
 import SessionWatcher from '@/components/shared/SessionWatcher';
 import WalletButton from '@/components/shared/WalletButton';
 import WalletStatusBar from '@/components/shared/WalletStatusBar';
-import Level1StatusBadge from '@/components/shared/Level1StatusBadge';
-import { MobilePreviewBanner } from '@/components/shared/MobilePreviewBanner';
 import { AlertTriangle, ShieldCheck } from 'lucide-react';
 import { Networks } from '@stellar/stellar-sdk';
 
@@ -122,8 +120,6 @@ export default function VoterLayout({ children }: { children: React.ReactNode })
         {children}
       </main>
 
-      <Level1StatusBadge />
-      <MobilePreviewBanner />
     </div>
   );
 }

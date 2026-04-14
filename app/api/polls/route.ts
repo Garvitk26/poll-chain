@@ -66,7 +66,7 @@ export async function POST(request: Request) {
       options: cleanOptions,
       requireWallet: data.requireWallet ?? true,
       closesAt: data.closesAt,
-      status: 'draft',
+      status: 'active',
     });
 
     await poll.save();
