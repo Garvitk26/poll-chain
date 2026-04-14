@@ -248,7 +248,7 @@ export async function getVotesFromHorizon(collectorWallet: string, options: any[
     // Tally results
     const tally = options.map(opt => ({
       ...opt,
-      votes: votes.filter(v => v.memo === opt.memo).length
+      votes: votes.filter(v => (v.memo || '').trim() === (opt.memo || '').trim()).length
     }));
 
     return {

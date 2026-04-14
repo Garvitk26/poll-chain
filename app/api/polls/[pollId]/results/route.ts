@@ -12,11 +12,12 @@ export async function GET(request: Request, { params }: { params: { pollId: stri
     
     if (!poll) return NextResponse.json({ error: 'Not Found' }, { status: 404 });
 
-    const { tally, totalVotes } = await getVotesFromHorizon(poll.collectorWallet, poll.options);
+    const { tally, totalVotes, votes } = await getVotesFromHorizon(poll.collectorWallet, poll.options);
 
     return NextResponse.json({ 
       options: tally,
       totalVotes,
+      votes,
       status: poll.status 
     });
   } catch (error) {

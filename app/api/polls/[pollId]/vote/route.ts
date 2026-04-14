@@ -46,6 +46,9 @@ export async function POST(request: Request, { params }: { params: { pollId: str
     });
 
     await vote.save();
+    
+    // Increment totalVotes on the poll document
+    await Poll.findByIdAndUpdate(params.pollId, { $inc: { totalVotes: 1 } });
 
     return NextResponse.json({ success: true, vote });
   } catch (error) {

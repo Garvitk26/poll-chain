@@ -222,7 +222,7 @@ export default function PublicPollPage({ params }: { params: { pollId: string } 
             ]}
             onClose={() => {
               setShowSuccessCard(false);
-              router.push(`/results/${poll.id}`);
+              router.push(`/results/${poll._id}`);
             }}
           />
         )}

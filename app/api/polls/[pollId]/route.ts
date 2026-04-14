@@ -22,6 +22,29 @@ export async function GET(request: Request, { params }: { params: { pollId: stri
   }
 }
 
+export async function PATCH(request: Request, { params }: { params: { pollId: string } }) {
+  try {
+    const session = await getServerSession(authOptions);
+    if (!session || session.user.role !== 'creator') {
+       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const { status } = await request.json();
+    if (!status) return NextResponse.json({ error: 'Status is required' }, { status: 400 });
+
+    await connectDB();
+    const poll = await Poll.findOne({ _id: params.pollId, creatorId: session.user.id });
+    if (!poll) return NextResponse.json({ error: 'Poll Not Found' }, { status: 404 });
+
+    poll.status = status;
+    await poll.save();
+
+    return NextResponse.json({ success: true, poll });
+  } catch (error) {
+    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+  }
+}
+
 export async function DELETE(request: Request, { params }: { params: { pollId: string } }) {
   try {
     const session = await getServerSession(authOptions);

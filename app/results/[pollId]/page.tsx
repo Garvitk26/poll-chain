@@ -44,13 +44,13 @@ export default function ResultsPage({ params }: { params: { pollId: string } }) 
     );
   }
 
-  const shareUrl = typeof window !== 'undefined' ? `${window.location.origin}/poll/${poll.id}` : '';
+  const shareUrl = typeof window !== 'undefined' ? `${window.location.origin}/poll/${poll._id}` : '';
 
   return (
     <main className="min-h-[calc(100vh-64px)] py-8 px-4 md:px-8 bg-[#00080f]">
       <div className="max-w-5xl mx-auto space-y-6">
         
-        <Link href={`/poll/${poll.id}`} className="inline-flex items-center gap-2 text-rose-400 hover:text-rose-300 text-sm font-medium mb-4 transition-colors">
+        <Link href={`/poll/${poll._id}`} className="inline-flex items-center gap-2 text-rose-400 hover:text-rose-300 text-sm font-medium mb-4 transition-colors">
           <ArrowLeft className="w-4 h-4" /> Back to Voting
         </Link>
 
@@ -101,7 +101,7 @@ export default function ResultsPage({ params }: { params: { pollId: string } }) 
             
             {activeTab === 'feed' && (
               <div className="max-w-4xl mx-auto">
-                <LiveVoteFeed pollId={poll.id} collectorWallet={poll.collectorWallet} />
+                <LiveVoteFeed pollId={poll._id} collectorWallet={poll.collectorWallet} />
               </div>
             )}
 

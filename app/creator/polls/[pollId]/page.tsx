@@ -1,14 +1,18 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Settings, Lock, FileX, Download, Copy, CheckCircle2 } from 'lucide-react';
+import { Settings, Lock, FileX, Download, Copy, CheckCircle2, RefreshCw, Rocket } from 'lucide-react';
 import QRCodeDisplay from '@/components/shared/QRCodeDisplay';
 import DashboardSkeleton from '@/components/shared/DashboardSkeleton';
+import { useToast } from '@/lib/context/ToastContext';
 
 export default function ActivePollManagement({ params }: { params: { pollId: string } }) {
   const [poll, setPoll] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [copied, setCopied] = useState(false);
+  const [syncing, setSyncing] = useState(false);
+  const [publishing, setPublishing] = useState(false);
+  const { showToast } = useToast();
 
   const handleCopy = () => {
     if (poll?.collectorWallet) {
@@ -40,9 +44,46 @@ export default function ActivePollManagement({ params }: { params: { pollId: str
       const data = await res.json();
       if (data.success) {
         setPoll({ ...poll, status: 'closed' });
+        showToast('Poll closed successfully', 'success');
       }
     } catch (err) {
-      alert('Failed to close poll');
+      showToast('Failed to close poll', 'error');
+    }
+  };
+
+  const handleSync = async () => {
+    setSyncing(true);
+    try {
+      const res = await fetch(`/api/polls/${params.pollId}/sync`, { method: 'POST' });
+      const data = await res.json();
+      if (data.success) {
+        setPoll(prev => ({ ...prev, totalVotes: data.totalVotes }));
+        showToast(`Synchronized! ${data.totalVotes} votes detected on-chain.`, 'success');
+      }
+    } catch (err) {
+      showToast('Synchronization failed', 'error');
+    } finally {
+      setSyncing(false);
+    }
+  };
+
+  const handlePublish = async () => {
+    setPublishing(true);
+    try {
+      const res = await fetch(`/api/polls/${params.pollId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: 'active' })
+      });
+      const data = await res.json();
+      if (data.success) {
+        setPoll(prev => ({ ...prev, status: 'active' }));
+        showToast('Poll is now LIVE and public', 'success');
+      }
+    } catch (err) {
+      showToast('Failed to publish poll', 'error');
+    } finally {
+      setPublishing(false);
     }
   };
 
@@ -72,6 +113,16 @@ export default function ActivePollManagement({ params }: { params: { pollId: str
         </div>
         <div className="flex gap-3">
           <button className="btn-secondary py-2 px-4 shadow-none" onClick={() => window.location.href=`/results/${poll._id}`}>View Results</button>
+          {poll.status === 'draft' && (
+             <button 
+               onClick={handlePublish}
+               disabled={publishing}
+               className="bg-violet-600 hover:bg-violet-500 text-white rounded-md px-4 py-2 text-sm font-bold transition-all flex items-center gap-2 shadow-lg shadow-violet-600/20"
+             >
+               {publishing ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Rocket className="w-4 h-4" />}
+               Publish Poll
+             </button>
+          )}
           {poll.status === 'active' && (
              <button 
                onClick={handleClose}
@@ -107,7 +158,17 @@ export default function ActivePollManagement({ params }: { params: { pollId: str
                 </div>
               </div>
               <div className="space-y-1">
-                <span className="text-xs text-slate-500 uppercase tracking-widest font-semibold">Total Votes Received</span>
+                <div className="flex items-center justify-between">
+                  <span className="text-xs text-slate-500 uppercase tracking-widest font-semibold">Total Votes Received</span>
+                  <button 
+                    onClick={handleSync}
+                    disabled={syncing}
+                    className="text-violet-400 hover:text-violet-300 transition-colors flex items-center gap-1.5 text-[10px] uppercase font-black tracking-widest"
+                  >
+                    <RefreshCw className={`w-3 h-3 ${syncing ? 'animate-spin' : ''}`} />
+                    Sync Ledger
+                  </button>
+                </div>
                 <p className="font-mono text-2xl font-bold text-slate-200">{poll.totalVotes}</p>
               </div>
             </div>
