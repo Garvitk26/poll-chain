@@ -137,7 +137,7 @@ export default function PublicPollPage({ params }: { params: { pollId: string } 
         <div className="bg-[#001224] border border-rose-500/20 rounded-2xl p-8 shadow-xl">
           <div className="flex justify-between items-start mb-4">
             <span className="badge badge-rose animate-pulse">Live Public Poll</span>
-            <span className="text-xs text-slate-500 font-mono">ID: {poll.id.substring(0,8)}</span>
+            <span className="text-xs text-slate-500 font-mono">ID: {poll?._id?.toString()?.substring(0,8) || 'Unknown'}</span>
           </div>
           <h1 className="text-3xl font-bold gradient-text leading-tight mb-4">{poll.title}</h1>
           {poll.description && (

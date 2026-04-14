@@ -10,7 +10,13 @@ export async function GET(request: Request, { params }: { params: { pollId: stri
     const poll = await Poll.findById(params.pollId).select('-collectorSecretEncrypted');
     
     if (!poll) return NextResponse.json({ error: 'Not Found' }, { status: 404 });
-    return NextResponse.json({ poll });
+    
+    // Transform for consistency
+    const pollObj = poll.toObject();
+    pollObj.id = pollObj._id.toString();
+    pollObj._id = pollObj._id.toString();
+
+    return NextResponse.json({ poll: pollObj });
   } catch (error) {
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
   }
