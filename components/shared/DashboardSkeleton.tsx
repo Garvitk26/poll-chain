@@ -17,7 +17,7 @@ export default function DashboardSkeleton() {
       {/* 4 Stat Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {[1, 2, 3, 4].map((i) => (
-          <div key={i} className="p-6 bg-[#000d1a] border border-cyan-500/10 rounded-xl relative overflow-hidden">
+          <div key={i} className="p-6 bg-[#000d1a] border border-rose-500/10 rounded-xl relative overflow-hidden">
              <Skeleton className="w-8 h-8 rounded-md mb-4" />
              <Skeleton className="w-16 h-4 mb-2" />
              <Skeleton className="w-24 h-8" />
@@ -27,9 +27,9 @@ export default function DashboardSkeleton() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Chart section */}
-        <div className="lg:col-span-2 p-6 bg-[#000d1a] border border-cyan-500/10 rounded-xl">
+        <div className="lg:col-span-2 p-6 bg-[#000d1a] border border-rose-500/10 rounded-xl">
           <Skeleton className="w-1/4 h-6 mb-6" />
-          <div className="flex items-end gap-2 h-64 border-b border-cyan-500/10 pb-4">
+          <div className="flex items-end gap-2 h-64 border-b border-rose-500/10 pb-4">
             {[1, 2, 3, 4, 5, 6, 7].map((i) => (
               <Skeleton 
                 key={i} 
@@ -41,7 +41,7 @@ export default function DashboardSkeleton() {
         </div>
 
         {/* Sidebar activity / table section */}
-        <div className="p-6 bg-[#000d1a] border border-cyan-500/10 rounded-xl">
+        <div className="p-6 bg-[#000d1a] border border-rose-500/10 rounded-xl">
            <Skeleton className="w-1/3 h-6 mb-6" />
            <div className="space-y-6">
              {[1, 2, 3, 4].map((i) => (

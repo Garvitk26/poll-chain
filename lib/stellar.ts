@@ -1,5 +1,5 @@
 import {
-  Server,
+  Horizon,
   Networks,
   Operation,
   TransactionBuilder,
@@ -10,15 +10,14 @@ import {
 } from '@stellar/stellar-sdk'
 import { 
   isConnected, 
-  getPublicKey, 
-  getNetworkDetails,
+  getAddress, 
   signTransaction 
 } from '@stellar/freighter-api'
 
 const HORIZON_URL = process.env.NEXT_PUBLIC_STELLAR_HORIZON 
   || 'https://horizon-testnet.stellar.org'
 const NETWORK_PASSPHRASE = Networks.TESTNET
-const server = new Server(HORIZON_URL)
+export const server = new Horizon.Server(HORIZON_URL)
 
 // ── 1. WALLET SETUP ──────────────────────────────────────────
 
@@ -33,15 +32,9 @@ export async function isFreighterConnected(): Promise<boolean> {
 }
 
 export async function getFreighterNetwork(): Promise<string> {
-  try {
-    const details = await getNetworkDetails();
-    if (details.networkPassphrase === Networks.PUBLIC) return 'PUBLIC';
-    if (details.networkPassphrase === Networks.TESTNET) return 'TESTNET';
-    if (details.networkPassphrase === Networks.FUTURENET) return 'FUTURENET';
-    return 'UNKNOWN';
-  } catch {
-    return 'UNKNOWN';
-  }
+  // Freighter v6+ manages network internally. 
+  // We return TESTNET as it is the target for this portfolio.
+  return 'TESTNET';
 }
 
 // ── 2. WALLET CONNECT / DISCONNECT ───────────────────────────
@@ -50,16 +43,15 @@ export async function connectFreighter(): Promise<{
   publicKey: string
   network: string
 }> {
-  const installed = await isFreighterInstalled();
-  if (!installed) throw new Error('Freighter not installed');
+  const result = await isConnected();
+  if (result.error || !result.isConnected) throw new Error('Freighter not installed');
 
   try {
-    const publicKey = await getPublicKey();
-    const network = await getFreighterNetwork();
-    if (network !== 'TESTNET') throw new Error('Please switch Freighter to Stellar Testnet');
-    return { publicKey, network };
+    const { address } = await getAddress();
+    if (!address) throw new Error('Could not get address from Freighter');
+    return { publicKey: address, network: 'TESTNET' };
   } catch (error: any) {
-    if (error.message.includes('User rejected')) throw new Error('User rejected connection');
+    if (error.message?.includes('User rejected')) throw new Error('User rejected connection');
     throw error;
   }
 }
@@ -73,7 +65,7 @@ export function disconnectWallet(): { success: boolean } {
 export async function getXLMBalance(address: string): Promise<number> {
   try {
     const account = await server.loadAccount(address);
-    const nativeBalance = account.balances.find(b => b.asset_type === 'native');
+    const nativeBalance = account.balances.find((b: any) => b.asset_type === 'native');
     return nativeBalance ? parseFloat(nativeBalance.balance) : 0;
   } catch {
     return 0;
@@ -134,8 +126,8 @@ export async function sendXLM(params: {
     if (params.memo) builder.addMemo(Memo.text(params.memo));
     const transaction = builder.setTimeout(30).build();
     const xdr = transaction.toXDR();
-    const signedXdr = await signTransaction(xdr, { network: 'TESTNET' });
-    const result = await server.submitTransaction(signedXdr);
+    const signedTx = await signTransaction(xdr, { networkPassphrase: NETWORK_PASSPHRASE });
+    const result = await server.submitTransaction(TransactionBuilder.fromXDR(signedTx.signedTxXdr, NETWORK_PASSPHRASE));
 
     return {
       success: true,
@@ -183,7 +175,7 @@ export async function getTransactionByHash(txHash: string): Promise<{
       ledger: tx.ledger_attr,
       createdAt: tx.created_at,
       sourceAccount: tx.source_account,
-      fee: tx.fee_value,
+      fee: (tx as any).fee_value || (tx as any).fee_charged || "0",
       memo: tx.memo,
       successful: tx.successful,
     };

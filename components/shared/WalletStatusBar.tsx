@@ -65,17 +65,17 @@ export default function WalletStatusBar() {
   if (!address) return null
 
   return (
-    <div className="sticky top-0 z-40 w-full h-14 bg-[#0a0f12]/80 backdrop-blur-md border-b border-cyan-500/20 transition-all duration-300">
+    <div className="sticky top-0 z-40 w-full h-14 bg-[#0a0f12]/80 backdrop-blur-md border-b border-rose-500/20 transition-all duration-300">
       <div className="max-w-[1400px] mx-auto px-6 h-full flex items-center justify-between gap-4">
         
         {/* Left Side: Connection Status */}
         <div className="flex items-center gap-3 shrink-0">
-          <div className="w-2 h-2 rounded-full bg-cyan-500 animate-pulse shadow-[0_0_8px_rgba(6,182,212,0.8)]" />
+          <div className="w-2 h-2 rounded-full bg-rose-500 animate-pulse shadow-[0_0_8px_rgba(6,182,212,0.8)]" />
           <div className="flex flex-col">
             <span className="text-[10px] uppercase font-black tracking-widest text-white leading-none mb-1">
               PollChain Node Active
             </span>
-            <span className="font-mono text-[11px] text-cyan-400 font-bold leading-none">
+            <span className="font-mono text-[11px] text-rose-400 font-bold leading-none">
               {address.slice(0, 6)}...{address.slice(-6)}
             </span>
           </div>
@@ -88,13 +88,13 @@ export default function WalletStatusBar() {
                 <span className="text-xl font-black text-white tracking-tighter tabular-nums leading-none">
                   {balance !== null ? balance.toLocaleString(undefined, { minimumFractionDigits: 4, maximumFractionDigits: 4 }) : '---'}
                 </span>
-                <span className="text-[10px] font-black text-cyan-400 uppercase tracking-tighter">XLM</span>
+                <span className="text-[10px] font-black text-rose-400 uppercase tracking-tighter">XLM</span>
                 <button 
                   onClick={fetchWalletData}
                   disabled={loading}
                   className={cn(
-                    "text-muted-foreground hover:text-cyan-400 transition-colors ml-1",
-                    loading && "animate-spin text-cyan-400"
+                    "text-muted-foreground hover:text-rose-400 transition-colors ml-1",
+                    loading && "animate-spin text-rose-400"
                   )}
                 >
                   <RefreshCw size={14} />
@@ -108,7 +108,7 @@ export default function WalletStatusBar() {
         <div className="flex items-center gap-3 shrink-0">
            <Dialog>
             <DialogTrigger asChild>
-              <Button size="sm" className="bg-cyan-600 hover:bg-cyan-500 text-white h-9 px-4 font-black uppercase tracking-widest text-[10px] italic shadow-lg shadow-cyan-500/20">
+              <Button size="sm" className="bg-rose-600 hover:bg-rose-500 text-white h-9 px-4 font-black uppercase tracking-widest text-[10px] italic shadow-lg shadow-rose-500/20">
                 <Send className="h-3.5 w-3.5 mr-2" />
                 Quick Send
               </Button>

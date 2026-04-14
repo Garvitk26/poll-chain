@@ -101,7 +101,7 @@ export default function PublicPollPage({ params }: { params: { pollId: string } 
   if (loading) {
     return (
       <main className="min-h-screen flex items-center justify-center">
-        <div className="spin-ring opacity-50 w-10 h-10 border-t-cyan-500" />
+        <div className="spin-ring opacity-50 w-10 h-10 border-t-rose-500" />
       </main>
     );
   }
@@ -109,7 +109,7 @@ export default function PublicPollPage({ params }: { params: { pollId: string } 
   if (!poll || poll.status !== 'active') {
     return (
       <main className="min-h-screen flex items-center justify-center p-4">
-        <div className="bg-[#000d1a] border border-cyan-500/20 p-8 rounded-xl max-w-md w-full text-center">
+        <div className="bg-[#000d1a] border border-rose-500/20 p-8 rounded-xl max-w-md w-full text-center">
           <AlertCircle className="w-12 h-12 text-rose-500 mx-auto mb-4" />
           <h2 className="text-xl font-bold text-slate-100 mb-2">Poll Unavailable</h2>
           <p className="text-slate-400 mb-6">This poll is either closed, archived, or does not exist.</p>
@@ -122,13 +122,12 @@ export default function PublicPollPage({ params }: { params: { pollId: string } 
   }
 
   return (
-    <main className="min-h-[calc(100vh-64px)] py-12 px-4 md:px-8 bg-[#00080f]">
+    <main className="min-h-screen py-12 px-4 md:px-8 bg-[#00080f]">
       <div className="max-w-3xl mx-auto space-y-8">
-        
         {/* Header Block */}
-        <div className="bg-[#001224] border border-cyan-500/20 rounded-2xl p-8 shadow-xl">
+        <div className="bg-[#001224] border border-rose-500/20 rounded-2xl p-8 shadow-xl">
           <div className="flex justify-between items-start mb-4">
-            <span className="badge badge-cyan animate-pulse">Live Public Poll</span>
+            <span className="badge badge-rose animate-pulse">Live Public Poll</span>
             <span className="text-xs text-slate-500 font-mono">ID: {poll.id.substring(0,8)}</span>
           </div>
           <h1 className="text-3xl font-bold gradient-text leading-tight mb-4">{poll.title}</h1>
@@ -136,8 +135,8 @@ export default function PublicPollPage({ params }: { params: { pollId: string } 
             <p className="text-slate-300 text-lg leading-relaxed">{poll.description}</p>
           )}
           
-          <div className="flex items-center gap-2 mt-6 pt-6 border-t border-cyan-500/10 text-xs text-slate-500">
-            <Info className="w-4 h-4 text-cyan-500" />
+          <div className="flex items-center gap-2 mt-6 pt-6 border-t border-rose-500/10 text-xs text-slate-500">
+            <Info className="w-4 h-4 text-rose-500" />
             <span>Voting sends a minuscule transaction to the collector wallet encoding your choice in the Memo field.</span>
           </div>
         </div>
@@ -151,33 +150,33 @@ export default function PublicPollPage({ params }: { params: { pollId: string } 
               onClick={() => setSelectedOption(option.id)}
               className={`w-full text-left p-6 rounded-xl border-2 transition-all duration-300 flex items-center justify-between group ${
                 selectedOption === option.id
-                  ? 'bg-cyan-500/10 border-cyan-500 shadow-[0_0_20px_rgba(6,182,212,0.15)]'
-                  : 'bg-[#000d1a] border-cyan-500/10 hover:border-cyan-500/30'
+                  ? 'bg-rose-500/10 border-rose-500 shadow-[0_0_20px_rgba(6,182,212,0.15)]'
+                  : 'bg-[#000d1a] border-rose-500/10 hover:border-rose-500/30'
               }`}
             >
               <div className="flex flex-col">
-                <span className={`text-lg font-medium transition-colors ${selectedOption === option.id ? 'text-cyan-400' : 'text-slate-200 group-hover:text-cyan-200'}`}>
+                <span className={`text-lg font-medium transition-colors ${selectedOption === option.id ? 'text-rose-400' : 'text-slate-200 group-hover:text-rose-200'}`}>
                   {option.label}
                 </span>
                 <span className="text-xs font-mono text-slate-500 mt-1 uppercase">Memo: {option.memo}</span>
               </div>
               <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-colors ${
-                selectedOption === option.id ? 'border-cyan-500' : 'border-slate-600'
+                selectedOption === option.id ? 'border-rose-500' : 'border-slate-600'
               }`}>
-                {selectedOption === option.id && <div className="w-3 h-3 bg-cyan-500 rounded-full" />}
+                {selectedOption === option.id && <div className="w-3 h-3 bg-rose-500 rounded-full" />}
               </div>
             </button>
           ))}
         </div>
 
         {/* Action Panel */}
-        <div className="bg-[#000d1a] border border-cyan-500/20 rounded-2xl p-6 sticky bottom-6 shadow-2xl flex flex-col md:flex-row items-center justify-between gap-6 z-40">
+        <div className="bg-[#000d1a] border border-rose-500/20 rounded-2xl p-6 sticky bottom-6 shadow-2xl flex flex-col md:flex-row items-center justify-between gap-6 z-40">
           <div className="flex-1">
             <p className="text-sm text-slate-400 mb-1">
               {selectedOption ? 'Ready to cast your vote on-chain.' : 'Select an option above to continue.'}
             </p>
             {poll.requireWallet && (
-               <p className="text-xs text-indigo-400">* Requires active Freighter connection</p>
+               <p className="text-xs text-violet-400">* Requires active Freighter connection</p>
             )}
           </div>
           <div className="w-full md:w-auto">
@@ -199,9 +198,6 @@ export default function PublicPollPage({ params }: { params: { pollId: string } 
             </button>
           </div>
         </div>
-
-        </div>
-
         {showSuccessCard && (
           <TransactionSuccessCard 
             title="Vote Cast!"

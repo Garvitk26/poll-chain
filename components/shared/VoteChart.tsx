@@ -27,10 +27,10 @@ export default function VoteChart({ options, votes, animate = false }: VoteChart
   const maxVotes = sorted.length > 0 ? sorted[0].count : 0;
 
   const colors = [
-    'from-cyan-500 to-cyan-600',
-    'from-indigo-500 to-indigo-600',
+    'from-rose-500 to-rose-600',
     'from-violet-500 to-violet-600',
-    'from-fuchsia-500 to-fuchsia-600',
+    'from-violet-500 to-violet-600',
+    'from-pink-500 to-pink-600',
     'from-amber-500 to-amber-600',
     'from-rose-500 to-rose-600'
   ];
@@ -52,7 +52,7 @@ export default function VoteChart({ options, votes, animate = false }: VoteChart
                 {opt.count} ({percent}%)
               </span>
             </div>
-            <div className="w-full bg-[#001a33] rounded-sm h-3 overflow-hidden border left-0 border-cyan-500/10">
+            <div className="w-full bg-[#001a33] rounded-sm h-3 overflow-hidden border left-0 border-rose-500/10">
               <div 
                 className={`h-full bg-gradient-to-r ${colors[i % colors.length]} relative`}
                 style={{ 

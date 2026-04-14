@@ -78,17 +78,17 @@ export default function SessionWatcher() {
 
   return (
     <div className="absolute inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm min-h-[500px]">
-      <div className="bg-[#000d1a] border border-cyan-500/20 p-8 rounded-xl shadow-2xl w-full max-w-sm text-center">
+      <div className="bg-[#000d1a] border border-rose-500/20 p-8 rounded-xl shadow-2xl w-full max-w-sm text-center">
         <h2 className="text-2xl font-bold gradient-text mb-4">Inactivity Warning</h2>
         <p className="text-slate-300 mb-2">You will be signed out due to inactivity in:</p>
-        <div className="text-3xl font-mono-hash text-cyan-400 mb-8">
+        <div className="text-3xl font-mono-hash text-rose-400 mb-8">
           {Math.floor(timeLeft / 60).toString().padStart(2, '0')}:{(timeLeft % 60).toString().padStart(2, '0')}
         </div>
         
         <div className="flex flex-col gap-3">
           <button 
             onClick={handleStaySignedIn}
-            className="w-full bg-gradient-to-r from-cyan-500 to-indigo-500 text-white font-medium py-2 rounded-md hover:shadow-[0_0_15px_rgba(6,182,212,0.4)] transition-all"
+            className="w-full bg-gradient-to-r from-rose-500 to-violet-500 text-white font-medium py-2 rounded-md hover:shadow-[0_0_15px_rgba(6,182,212,0.4)] transition-all"
           >
             Stay Signed In
           </button>

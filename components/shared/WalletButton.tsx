@@ -124,7 +124,7 @@ export default function WalletButton() {
   if (isConnecting) {
     return (
       <button disabled className="btn-secondary flex items-center gap-2 cursor-not-allowed opacity-80 text-sm py-1.5 px-4">
-        <div className="w-4 h-4 rounded-full border-2 border-cyan-500/30 border-t-cyan-400 animate-spin" />
+        <div className="w-4 h-4 rounded-full border-2 border-rose-500/30 border-t-rose-400 animate-spin" />
         Connecting...
       </button>
     );
@@ -136,15 +136,15 @@ export default function WalletButton() {
       <div className="relative inline-block" ref={dropdownRef}>
         <button 
           onClick={() => setDropdownOpen(!dropdownOpen)}
-          className="flex items-center gap-2 bg-[#001224] border border-cyan-500/30 hover:border-cyan-400 text-slate-200 transition-colors rounded-full pl-3 pr-2 py-1.5 text-sm font-mono-hash"
+          className="flex items-center gap-2 bg-[#001224] border border-rose-500/30 hover:border-rose-400 text-slate-200 transition-colors rounded-full pl-3 pr-2 py-1.5 text-sm font-mono-hash"
         >
-          <div className="w-2 h-2 rounded-full bg-cyan-400 shadow-[0_0_8px_var(--cyan)] animate-pulse" />
+          <div className="w-2 h-2 rounded-full bg-rose-400 shadow-[0_0_8px_var(--rose)] animate-pulse" />
           {truncate}
           <ChevronDown className="w-4 h-4 ml-1 opacity-70" />
         </button>
 
         {dropdownOpen && (
-          <div className="absolute right-0 mt-2 w-48 bg-[#000d1a] border border-cyan-500/20 rounded-md shadow-xl py-1 z-50">
+          <div className="absolute right-0 mt-2 w-48 bg-[#000d1a] border border-rose-500/20 rounded-md shadow-xl py-1 z-50">
             <button
               onClick={handleDisconnect}
               className="w-full text-left px-4 py-2 text-sm text-rose-400 hover:bg-rose-500/10 flex items-center gap-2"

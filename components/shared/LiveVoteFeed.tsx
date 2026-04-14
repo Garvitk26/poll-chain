@@ -14,7 +14,7 @@ export default function LiveVoteFeed({ pollId, collectorWallet }: LiveVoteFeedPr
 
   if (loading && votes.length === 0) {
     return (
-      <div className="w-full h-48 flex items-center justify-center border border-dashed border-cyan-500/30 rounded-xl bg-cyan-900/5">
+      <div className="w-full h-48 flex items-center justify-center border border-dashed border-rose-500/30 rounded-xl bg-rose-900/5">
         <div className="spin-ring opacity-50" />
       </div>
     );
@@ -22,7 +22,7 @@ export default function LiveVoteFeed({ pollId, collectorWallet }: LiveVoteFeedPr
 
   if (votes.length === 0) {
     return (
-      <div className="w-full h-48 flex flex-col items-center justify-center border border-dashed border-cyan-500/30 rounded-xl bg-[#000d1a]">
+      <div className="w-full h-48 flex flex-col items-center justify-center border border-dashed border-rose-500/30 rounded-xl bg-[#000d1a]">
         <p className="text-slate-500 text-sm">Waiting for votes...</p>
         <p className="text-xs text-slate-600 mt-2 font-mono">{collectorWallet}</p>
       </div>
@@ -33,11 +33,11 @@ export default function LiveVoteFeed({ pollId, collectorWallet }: LiveVoteFeedPr
   const votesLast60s = votes.filter(v => (Date.now() - new Date(v.createdAt).getTime()) < 60000).length;
 
   return (
-    <div className="w-full bg-[#000d1a] border border-cyan-500/15 rounded-xl overflow-hidden shadow-lg">
-      <div className="px-4 py-3 border-b border-cyan-500/10 flex justify-between items-center bg-[#001224]">
+    <div className="w-full bg-[#000d1a] border border-rose-500/15 rounded-xl overflow-hidden shadow-lg">
+      <div className="px-4 py-3 border-b border-rose-500/10 flex justify-between items-center bg-[#001224]">
         <h3 className="text-sm font-semibold text-slate-200">Live Transaction Feed</h3>
         {votesLast60s > 0 && (
-          <span className="badge badge-cyan animate-pulse">
+          <span className="badge badge-rose animate-pulse">
             {votesLast60s} in last 60s
           </span>
         )}
@@ -46,15 +46,15 @@ export default function LiveVoteFeed({ pollId, collectorWallet }: LiveVoteFeedPr
         {recentVotes.map((vote, idx) => (
           <div 
             key={vote.txHash} 
-            className="flex items-center justify-between p-3 rounded-lg bg-slate-800/30 border border-slate-700 hover:border-cyan-500/40 transition-colors animate-voteFlash"
+            className="flex items-center justify-between p-3 rounded-lg bg-slate-800/30 border border-slate-700 hover:border-rose-500/40 transition-colors animate-voteFlash"
             style={{ animationDelay: `${idx * 0.1}s` }}
           >
             <div className="flex flex-col">
-              <span className="text-xs font-mono-hash truncate w-32 sm:w-48 text-indigo-300">
+              <span className="text-xs font-mono-hash truncate w-32 sm:w-48 text-violet-300">
                 {vote.voterWallet}
               </span>
               <span className="text-sm font-medium text-slate-200 mt-0.5">
-                Voted for: <span className="text-cyan-400">{vote.optionMemo || 'Option'}</span>
+                Voted for: <span className="text-rose-400">{vote.optionMemo || 'Option'}</span>
               </span>
             </div>
             <div className="flex flex-col items-end">

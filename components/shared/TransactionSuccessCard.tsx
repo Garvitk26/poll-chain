@@ -62,7 +62,7 @@ export default function TransactionSuccessCard({
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute inset-0 rounded-3xl border-2 border-transparent" 
                style={{ 
-                 background: 'linear-gradient(90deg, transparent, #06b6d4, transparent) border-box',
+                 background: 'linear-gradient(90deg, transparent, #f43f5e, transparent) border-box',
                  WebkitMask: 'linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0)',
                  WebkitMaskComposite: 'destination-out',
                  maskComposite: 'exclude',
@@ -82,7 +82,7 @@ export default function TransactionSuccessCard({
 
           {/* Animated Checkmark */}
           <div className="relative mb-6">
-            <svg className="w-20 h-20 text-cyan-500" viewBox="0 0 52 52">
+            <svg className="w-20 h-20 text-rose-500" viewBox="0 0 52 52">
               <circle 
                 className="stroke-current fill-none" 
                 cx="26" cy="26" r="25" 
@@ -108,10 +108,10 @@ export default function TransactionSuccessCard({
             </svg>
           </div>
 
-          <h2 className="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent mb-2 text-center">{title}</h2>
+          <h2 className="text-3xl font-bold bg-gradient-to-r from-rose-400 to-blue-500 bg-clip-text text-transparent mb-2 text-center">{title}</h2>
           <p className="text-muted-foreground mb-6 text-center">{subtitle}</p>
 
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-xs font-bold text-cyan-400 mb-8">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-500/10 border border-rose-500/20 text-xs font-bold text-rose-400 mb-8">
             <Check size={12} /> {network}
           </div>
 
@@ -130,7 +130,7 @@ export default function TransactionSuccessCard({
             
             <div className="flex items-center justify-between">
               <div className="text-sm text-muted-foreground">Wallet Balance</div>
-              <div className="text-2xl font-bold text-cyan-400">
+              <div className="text-2xl font-bold text-rose-400">
                 {walletBalance || "0.00"} <span className="text-sm font-medium text-muted-foreground">XLM</span>
               </div>
             </div>
@@ -163,7 +163,7 @@ export default function TransactionSuccessCard({
 
             <div className="flex justify-between items-center text-sm">
               <span className="text-muted-foreground flex items-center gap-2"><Check size={14} /> Status</span>
-              <span className="text-cyan-400 font-bold">Confirmed ✓</span>
+              <span className="text-rose-400 font-bold">Confirmed ✓</span>
             </div>
 
             {extraDetails?.map((detail, idx) => (
@@ -188,7 +188,7 @@ export default function TransactionSuccessCard({
                 window.open(`https://stellar.expert/explorer/testnet/tx/${txHash}`, '_blank')
                 onViewExplorer?.()
               }}
-              className="rounded-xl flex items-center gap-2 bg-gradient-to-r from-cyan-500 to-blue-500 text-white border-none"
+              className="rounded-xl flex items-center gap-2 bg-gradient-to-r from-rose-500 to-blue-500 text-white border-none"
             >
               Explorer <ExternalLink size={16} />
             </Button>

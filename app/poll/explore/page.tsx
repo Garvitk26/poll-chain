@@ -38,7 +38,7 @@ export default function ExplorePolls() {
               placeholder="Search by title..." 
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full bg-[#001224] border border-cyan-500/20 rounded-md py-2 pl-9 pr-4 text-sm text-slate-200 outline-none focus:border-cyan-500/50 transition-colors shadow-inner"
+              className="w-full bg-[#001224] border border-rose-500/20 rounded-md py-2 pl-9 pr-4 text-sm text-slate-200 outline-none focus:border-rose-500/50 transition-colors shadow-inner"
             />
           </div>
         </div>
@@ -51,7 +51,7 @@ export default function ExplorePolls() {
               <PollCard key={poll.id} poll={poll} />
             ))}
             {filtered.length === 0 && (
-              <div className="col-span-full py-12 text-center text-slate-500 bg-[#000d1a] border border-cyan-500/10 rounded-xl">
+              <div className="col-span-full py-12 text-center text-slate-500 bg-[#000d1a] border border-rose-500/10 rounded-xl">
                  No polls found matching your search.
               </div>
             )}

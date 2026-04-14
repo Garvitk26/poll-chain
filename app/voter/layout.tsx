@@ -9,6 +9,7 @@ import SessionWatcher from '@/components/shared/SessionWatcher';
 import WalletButton from '@/components/shared/WalletButton';
 import WalletStatusBar from '@/components/shared/WalletStatusBar';
 import Level1StatusBadge from '@/components/shared/Level1StatusBadge';
+import { MobilePreviewBanner } from '@/components/shared/MobilePreviewBanner';
 import { AlertTriangle, ShieldCheck } from 'lucide-react';
 import { Networks } from '@stellar/stellar-sdk';
 
@@ -63,14 +64,14 @@ export default function VoterLayout({ children }: { children: React.ReactNode })
       <SessionWatcher />
       
       {/* Secondary Voter Navbar */}
-      <nav className="w-full bg-[#001224] border-b border-cyan-500/10 px-4 md:px-8 h-16 flex items-center justify-between sticky top-0 z-[100] backdrop-blur-xl">
+      <nav className="w-full bg-[#001224] border-b border-rose-500/10 px-4 md:px-8 h-16 flex items-center justify-between sticky top-0 z-[100] backdrop-blur-xl">
         <div className="flex items-center gap-6">
           <Link href="/" className="flex items-center gap-2 group">
-             <div className="h-8 w-8 bg-indigo-600 rounded-lg flex items-center justify-center group-hover:rotate-12 transition-transform">
+             <div className="h-8 w-8 bg-violet-600 rounded-lg flex items-center justify-center group-hover:rotate-12 transition-transform">
                 <ShieldCheck className="text-white w-5 h-5" />
              </div>
              <span className="text-xl font-black italic tracking-tighter text-slate-200">
-               PollChain <span className="text-[10px] font-black not-italic text-indigo-400 bg-indigo-500/10 px-2 py-0.5 rounded-full ml-1 uppercase tracking-widest">Protocol</span>
+               PollChain <span className="text-[10px] font-black not-italic text-violet-400 bg-violet-500/10 px-2 py-0.5 rounded-full ml-1 uppercase tracking-widest">Protocol</span>
              </span>
           </Link>
           
@@ -79,7 +80,7 @@ export default function VoterLayout({ children }: { children: React.ReactNode })
               <Link 
                 key={link.href} 
                 href={link.href}
-                className={`text-[10px] font-black uppercase tracking-[0.2em] transition-all ${pathname === link.href ? 'text-indigo-400 shadow-[0_0_10px_rgba(129,140,248,0.2)]' : 'text-slate-400 hover:text-slate-200'}`}
+                className={`text-[10px] font-black uppercase tracking-[0.2em] transition-all ${pathname === link.href ? 'text-violet-400 shadow-[0_0_10px_rgba(129,140,248,0.2)]' : 'text-slate-400 hover:text-slate-200'}`}
               >
                 {link.label}
               </Link>
@@ -94,7 +95,7 @@ export default function VoterLayout({ children }: { children: React.ReactNode })
 
           <div className="flex items-center gap-4">
             <div 
-              className="w-10 h-10 rounded-xl border border-indigo-500/30 flex items-center justify-center text-sm font-black text-white shadow-xl italic"
+              className="w-10 h-10 rounded-xl border border-violet-500/30 flex items-center justify-center text-sm font-black text-white shadow-xl italic"
               style={{ backgroundColor: session.user.avatarColor || '#6366f1' }}
             >
               {session.user.name?.charAt(0).toUpperCase()}

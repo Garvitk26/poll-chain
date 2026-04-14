@@ -3,10 +3,10 @@
 import { useEffect, useState } from 'react';
 
 const COLORS = [
-  '#06b6d4', // cyan
-  '#6366f1', // indigo
+  '#f43f5e', // rose
+  '#6366f1', // violet
   '#8b5cf6', // violet
-  '#d946ef', // fuchsia
+  '#d946ef', // pink
   '#f59e0b', // amber
   '#f43f5e', // rose
   '#0ea5e9', // sky

@@ -3,7 +3,7 @@
 export function Skeleton({ className, style }: { className?: string; style?: React.CSSProperties }) {
   return (
     <div
-      className={`animate-shimmer bg-[length:200%_100%] bg-gradient-to-r from-slate-800/40 via-cyan-900/20 to-slate-800/40 rounded-md ${className}`}
+      className={`animate-shimmer bg-[length:200%_100%] bg-gradient-to-r from-slate-800/40 via-rose-900/20 to-slate-800/40 rounded-md ${className}`}
       style={style}
     />
   );
@@ -24,7 +24,7 @@ export function SkeletonText({ lines = 3, className }: { lines?: number, classNa
 
 export function SkeletonCard({ className }: { className?: string }) {
   return (
-    <div className={`p-6 bg-[#000d1a] border border-cyan-500/10 rounded-xl ${className}`}>
+    <div className={`p-6 bg-[#000d1a] border border-rose-500/10 rounded-xl ${className}`}>
       <div className="flex gap-4 mb-4">
         <Skeleton className="w-12 h-12 rounded-full" />
         <div className="flex-1">

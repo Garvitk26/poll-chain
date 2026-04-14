@@ -32,8 +32,8 @@ export default function VerifyPage({ params }: { params: { txHash: string } }) {
   if (loading) {
     return (
       <main className="min-h-[calc(100vh-64px)] flex flex-col items-center justify-center p-4">
-        <div className="w-16 h-16 rounded-full border-2 border-cyan-500/20 border-t-cyan-500 animate-[spin_1s_linear_infinite]" />
-        <p className="mt-4 text-cyan-400 font-mono animate-pulse">Querying Stellar Horizon nodes...</p>
+        <div className="w-16 h-16 rounded-full border-2 border-rose-500/20 border-t-rose-500 animate-[spin_1s_linear_infinite]" />
+        <p className="mt-4 text-rose-400 font-mono animate-pulse">Querying Stellar Horizon nodes...</p>
       </main>
     );
   }
@@ -53,36 +53,36 @@ export default function VerifyPage({ params }: { params: { txHash: string } }) {
     <main className="min-h-[calc(100vh-64px)] py-16 px-4 md:px-8 bg-[#00080f]">
       <div className="max-w-2xl mx-auto">
         <div className="text-center mb-10">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-cyan-500/10 text-cyan-400 mb-4 animate-bob1">
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-rose-500/10 text-rose-400 mb-4 animate-bob1">
             <ShieldCheck className="w-8 h-8" />
           </div>
           <h1 className="text-3xl font-bold text-slate-100 mb-2">Cryptographic Verification</h1>
           <p className="text-slate-400">Direct query from the Stellar Ledger</p>
         </div>
 
-        <div className="bg-[#001224] border border-cyan-500/20 rounded-2xl overflow-hidden shadow-[0_0_40px_rgba(6,182,212,0.05)] relative">
+        <div className="bg-[#001224] border border-rose-500/20 rounded-2xl overflow-hidden shadow-[0_0_40px_rgba(6,182,212,0.05)] relative">
           
           {/* Scan Line effect */}
-          <div className="absolute top-0 left-0 w-full h-[2px] bg-cyan-500/50 shadow-[0_0_10px_var(--cyan)] animate-scanLine opacity-50 z-0 pointer-events-none" />
+          <div className="absolute top-0 left-0 w-full h-[2px] bg-rose-500/50 shadow-[0_0_10px_var(--rose)] animate-scanLine opacity-50 z-0 pointer-events-none" />
 
           <div className="p-6 md:p-8 relative z-10 space-y-6">
             
-            <div className="flex justify-between items-center pb-4 border-b border-cyan-500/10">
+            <div className="flex justify-between items-center pb-4 border-b border-rose-500/10">
               <span className="text-sm text-slate-400">Status</span>
-              <span className="badge badge-cyan px-3 py-1 font-semibold flex items-center gap-1.5">
-                <div className="w-2 h-2 rounded-full border border-cyan-200 bg-cyan-500" />
+              <span className="badge badge-rose px-3 py-1 font-semibold flex items-center gap-1.5">
+                <div className="w-2 h-2 rounded-full border border-rose-200 bg-rose-500" />
                 {tx.status.toUpperCase()}
               </span>
             </div>
 
-            <div className="flex flex-col gap-1 pb-4 border-b border-cyan-500/10">
+            <div className="flex flex-col gap-1 pb-4 border-b border-rose-500/10">
               <span className="text-sm text-slate-400">Transaction Hash</span>
-              <span className="font-mono text-indigo-300 break-all text-sm bg-[#000d1a] p-3 rounded-md border border-indigo-500/10 select-all">
+              <span className="font-mono text-violet-300 break-all text-sm bg-[#000d1a] p-3 rounded-md border border-violet-500/10 select-all">
                 {tx.hash}
               </span>
             </div>
 
-            <div className="grid grid-cols-2 gap-4 pb-4 border-b border-cyan-500/10">
+            <div className="grid grid-cols-2 gap-4 pb-4 border-b border-rose-500/10">
               <div className="flex flex-col gap-1">
                 <span className="text-sm text-slate-400">Ledger Index</span>
                 <span className="font-mono font-medium text-slate-200">{tx.ledger}</span>
@@ -95,9 +95,9 @@ export default function VerifyPage({ params }: { params: { txHash: string } }) {
               </div>
             </div>
 
-            <div className="flex flex-col gap-1 pb-4 border-b border-cyan-500/10">
+            <div className="flex flex-col gap-1 pb-4 border-b border-rose-500/10">
               <span className="text-sm text-slate-400">Ledger Memo <span className="text-xs text-slate-500">(Vote Choice)</span></span>
-              <span className="font-mono text-cyan-400 text-lg font-bold bg-[#000d1a] p-3 rounded-md border border-cyan-500/20 inline-flex items-center gap-2 w-fit">
+              <span className="font-mono text-rose-400 text-lg font-bold bg-[#000d1a] p-3 rounded-md border border-rose-500/20 inline-flex items-center gap-2 w-fit">
                 {tx.memo}
               </span>
             </div>
@@ -117,7 +117,7 @@ export default function VerifyPage({ params }: { params: { txHash: string } }) {
         </div>
 
         <div className="mt-8 text-center">
-          <Link href="/poll/explore" className="text-slate-400 hover:text-cyan-400 text-sm transition-colors inline-flex items-center gap-2">
+          <Link href="/poll/explore" className="text-slate-400 hover:text-rose-400 text-sm transition-colors inline-flex items-center gap-2">
             Explore other public polls <ArrowRight className="w-4 h-4" />
           </Link>
         </div>

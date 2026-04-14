@@ -12,7 +12,7 @@ export default function PricingPage() {
 
         <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
           {/* Free Tier */}
-          <div className="bg-[#000d1a] border border-cyan-500/20 rounded-2xl p-8 relative">
+          <div className="bg-[#000d1a] border border-rose-500/20 rounded-2xl p-8 relative">
             <h2 className="text-2xl font-bold text-slate-200 mb-2">Voter</h2>
             <div className="flex items-end gap-1 mb-6">
               <span className="text-4xl font-bold text-slate-100">$0</span>
@@ -28,7 +28,7 @@ export default function PricingPage() {
                 'Zero platform fees'
               ].map((feat, i) => (
                 <li key={i} className="flex items-center gap-3 text-slate-300 text-sm">
-                  <Check className="w-4 h-4 text-cyan-400 flex-shrink-0" /> {feat}
+                  <Check className="w-4 h-4 text-rose-400 flex-shrink-0" /> {feat}
                 </li>
               ))}
             </ul>
@@ -36,9 +36,9 @@ export default function PricingPage() {
           </div>
 
           {/* Creator Tier */}
-          <div className="bg-[#001224] border-2 border-indigo-500/40 rounded-2xl p-8 relative shadow-[0_0_30px_rgba(99,102,241,0.15)] transform md:-translate-y-4">
+          <div className="bg-[#001224] border-2 border-violet-500/40 rounded-2xl p-8 relative shadow-[0_0_30px_rgba(99,102,241,0.15)] transform md:-translate-y-4">
             <div className="absolute top-0 right-8 transform -translate-y-1/2">
-              <span className="bg-indigo-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg">RECOMMENDED</span>
+              <span className="bg-violet-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg">RECOMMENDED</span>
             </div>
             <h2 className="text-2xl font-bold text-slate-200 mb-2">Creator Pro</h2>
             <div className="flex items-end gap-1 mb-6">
@@ -56,7 +56,7 @@ export default function PricingPage() {
                 'Advanced Demographic Analytics (Coming Soon)'
               ].map((feat, i) => (
                 <li key={i} className="flex items-center gap-3 text-slate-300 text-sm">
-                  <Check className="w-4 h-4 text-indigo-400 flex-shrink-0" /> {feat}
+                  <Check className="w-4 h-4 text-violet-400 flex-shrink-0" /> {feat}
                 </li>
               ))}
             </ul>

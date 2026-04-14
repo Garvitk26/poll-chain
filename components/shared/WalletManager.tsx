@@ -13,6 +13,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Loader2, Wallet, AlertTriangle, CheckCircle2, RefreshCw, Copy, ExternalLink, Unlink, Info } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
+import { cn } from '@/lib/utils'
 
 export default function WalletManager() {
   const [status, setStatus] = useState<'LOADING' | 'NOT_INSTALLED' | 'WRONG_NETWORK' | 'DISCONNECTED' | 'CONNECTING' | 'CONNECTED'>('LOADING')
@@ -115,9 +116,9 @@ export default function WalletManager() {
 
   if (status === 'LOADING') {
     return (
-      <Card className="border-cyan-500/20 bg-black/40 backdrop-blur-md">
+      <Card className="border-rose-500/20 bg-black/40 backdrop-blur-md">
         <CardContent className="flex items-center justify-center p-12">
-          <Loader2 className="h-8 w-8 animate-spin text-cyan-500" />
+          <Loader2 className="h-8 w-8 animate-spin text-rose-500" />
         </CardContent>
       </Card>
     )
@@ -163,16 +164,16 @@ export default function WalletManager() {
 
   if (status === 'DISCONNECTED' || status === 'CONNECTING') {
     return (
-      <Card className="border-cyan-500/30 bg-black/40 backdrop-blur-md">
+      <Card className="border-rose-500/30 bg-black/40 backdrop-blur-md">
         <CardHeader className="text-center">
-          <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-cyan-500/10">
-            <Wallet className="h-6 w-6 text-cyan-500" />
+          <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-rose-500/10">
+            <Wallet className="h-6 w-6 text-rose-500" />
           </div>
           <CardTitle>Voter Identity</CardTitle>
           <CardDescription>Link your wallet to verify eligibility</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          <Button className="w-full h-12 bg-cyan-600 hover:bg-cyan-500 font-bold" disabled={status === 'CONNECTING'} onClick={handleConnect}>
+          <Button className="w-full h-12 bg-rose-600 hover:bg-rose-500 font-bold" disabled={status === 'CONNECTING'} onClick={handleConnect}>
             {status === 'CONNECTING' ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : <Wallet className="h-4 w-4 mr-2" />}
             {status === 'CONNECTING' ? 'Connecting...' : 'Synchronize Identity'}
           </Button>
@@ -183,23 +184,23 @@ export default function WalletManager() {
   }
 
   return (
-    <Card className="border-cyan-500/40 bg-[#0a0f12] shadow-2xl overflow-hidden group">
-      <div className="bg-cyan-600/10 px-6 py-3 flex items-center justify-between border-b border-cyan-500/20">
+    <Card className="border-rose-500/40 bg-[#0a0f12] shadow-2xl overflow-hidden group">
+      <div className="bg-rose-600/10 px-6 py-3 flex items-center justify-between border-b border-rose-500/20">
         <div className="flex items-center gap-2">
           <div className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
-          <span className="text-[10px] font-black uppercase tracking-widest text-cyan-400">Node Synchronized</span>
+          <span className="text-[10px] font-black uppercase tracking-widest text-rose-400">Node Synchronized</span>
         </div>
-        <Badge variant="outline" className="text-[8px] font-black border-cyan-500/30 text-cyan-400 bg-cyan-500/5">TESTNET</Badge>
+        <Badge variant="outline" className="text-[8px] font-black border-rose-500/30 text-rose-400 bg-rose-500/5">TESTNET</Badge>
       </div>
       
       <CardContent className="p-6 space-y-6">
         <div className="space-y-2">
           <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground/50">Ledger Address</label>
           <div className="flex items-center gap-2 group/addr">
-            <code className="flex-1 rounded-xl bg-white/5 px-4 py-3 text-sm font-mono tracking-tight border border-white/5 transition-all group-hover/addr:border-cyan-500/30">
+            <code className="flex-1 rounded-xl bg-white/5 px-4 py-3 text-sm font-mono tracking-tight border border-white/5 transition-all group-hover/addr:border-rose-500/30">
               {address.slice(0, 10)}...{address.slice(-10)}
             </code>
-            <Button variant="ghost" size="icon" className="h-10 w-10 hover:bg-cyan-500/10" onClick={() => {
+            <Button variant="ghost" size="icon" className="h-10 w-10 hover:bg-rose-500/10" onClick={() => {
               navigator.clipboard.writeText(address)
               setCopied(true)
               setTimeout(() => setCopied(false), 2000)
@@ -212,7 +213,7 @@ export default function WalletManager() {
         <div className="space-y-2">
           <div className="flex items-center justify-between">
             <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground/50">Staking Power</label>
-            <button onClick={handleRefresh} disabled={isRefreshing} className="text-cyan-500/50 hover:text-cyan-500 transition-colors">
+            <button onClick={handleRefresh} disabled={isRefreshing} className="text-rose-500/50 hover:text-rose-500 transition-colors">
               <RefreshCw className={cn("h-3.5 w-3.5", isRefreshing && "animate-spin")} />
             </button>
           </div>
@@ -220,11 +221,11 @@ export default function WalletManager() {
             <span className="text-4xl font-black text-white tracking-tighter tabular-nums">
               {balance.toLocaleString(undefined, { minimumFractionDigits: 4, maximumFractionDigits: 4 })}
             </span>
-            <span className="text-sm font-black text-cyan-500 uppercase italic">XLM</span>
+            <span className="text-sm font-black text-rose-500 uppercase italic">XLM</span>
           </div>
           
           {balance === 0 && (
-            <Button size="sm" variant="outline" className="w-full mt-4 border-cyan-500/20 bg-cyan-500/5 text-cyan-400 font-bold hover:bg-cyan-500 hover:text-white" onClick={handleFund} disabled={isFunding}>
+            <Button size="sm" variant="outline" className="w-full mt-4 border-rose-500/20 bg-rose-500/5 text-rose-400 font-bold hover:bg-rose-500 hover:text-white" onClick={handleFund} disabled={isFunding}>
               {isFunding ? <Loader2 className="h-3 w-3 animate-spin mr-2" /> : <Info className="h-3 w-3 mr-2" />}
               Fund via Friendbot
             </Button>

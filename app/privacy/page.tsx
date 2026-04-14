@@ -1,7 +1,7 @@
 export default function PrivacyPage() {
   return (
     <main className="min-h-[calc(100vh-64px)] py-16 px-4 md:px-8 bg-[#00080f]">
-      <div className="max-w-3xl mx-auto prose prose-invert prose-p:text-slate-400 prose-headings:text-slate-200 prose-a:text-cyan-400">
+      <div className="max-w-3xl mx-auto prose prose-invert prose-p:text-slate-400 prose-headings:text-slate-200 prose-a:text-rose-400">
         <h1 className="text-4xl font-bold mb-8">Privacy Policy</h1>
         <p className="text-sm text-slate-500 mb-8">Last Updated: October 2024</p>
         

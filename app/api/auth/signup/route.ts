@@ -26,7 +26,7 @@ export async function POST(req: Request) {
     const salt = await bcrypt.genSalt(10);
     const passwordHash = await bcrypt.hash(password, salt);
 
-    const colors = ['#06b6d4', '#6366f1', '#8b5cf6', '#d946ef', '#f59e0b', '#f43f5e', '#0ea5e9'];
+    const colors = ['#f43f5e', '#6366f1', '#8b5cf6', '#d946ef', '#f59e0b', '#f43f5e', '#0ea5e9'];
     const randomColor = colors[Math.floor(Math.random() * colors.length)];
 
     await User.create({

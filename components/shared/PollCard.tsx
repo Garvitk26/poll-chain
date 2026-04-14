@@ -21,8 +21,8 @@ export default function PollCard({ poll, showResults = false, compact = false }:
   let StatusIcon = CheckCircle2;
 
   if (isActive) {
-    borderClass = 'border-cyan-500/30';
-    badgeColor = 'badge-cyan animate-pulse';
+    borderClass = 'border-rose-500/30';
+    badgeColor = 'badge-rose animate-pulse';
     StatusIcon = PlayCircle;
   } else if (isClosed) {
     borderClass = 'border-violet-500/30';
@@ -64,7 +64,7 @@ export default function PollCard({ poll, showResults = false, compact = false }:
       {!showResults && (
         <div className="flex flex-wrap gap-2 mb-6">
           {poll.options && poll.options.slice(0, 3).map((opt: any, i: number) => {
-            const colors = ['bg-cyan-500/20 text-cyan-400 border-cyan-500/30', 'bg-indigo-500/20 text-indigo-400 border-indigo-500/30', 'bg-violet-500/20 text-violet-400 border-violet-500/30'];
+            const colors = ['bg-rose-500/20 text-rose-400 border-rose-500/30', 'bg-violet-500/20 text-violet-400 border-violet-500/30', 'bg-violet-500/20 text-violet-400 border-violet-500/30'];
             return (
               <span key={opt.id} className={`text-xs px-2.5 py-1 rounded-full border ${colors[i % colors.length]}`}>
                 {opt.label}
@@ -90,7 +90,7 @@ export default function PollCard({ poll, showResults = false, compact = false }:
       <div className="mt-auto pt-4 border-t border-slate-800 flex items-center justify-between">
         <div className="flex flex-col">
           <span className="text-xs text-slate-500 uppercase tracking-widest font-semibold mb-1">Votes</span>
-          <span className="text-sm font-mono text-cyan-400 animate-countPulse">
+          <span className="text-sm font-mono text-rose-400 animate-countPulse">
             {poll.totalVotes?.toLocaleString() || 0}
           </span>
         </div>

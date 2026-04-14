@@ -61,29 +61,29 @@ export default function ResultsPage({ params }: { params: { pollId: string } }) 
     <main className="min-h-[calc(100vh-64px)] py-8 px-4 md:px-8 bg-[#00080f]">
       <div className="max-w-5xl mx-auto space-y-6">
         
-        <Link href={`/poll/${poll.id}`} className="inline-flex items-center gap-2 text-cyan-400 hover:text-cyan-300 text-sm font-medium mb-4 transition-colors">
+        <Link href={`/poll/${poll.id}`} className="inline-flex items-center gap-2 text-rose-400 hover:text-rose-300 text-sm font-medium mb-4 transition-colors">
           <ArrowLeft className="w-4 h-4" /> Back to Voting
         </Link>
 
         {/* Header Header */}
-        <div className="bg-[#001224] border border-cyan-500/20 rounded-2xl p-6 shadow-xl flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <div className="bg-[#001224] border border-rose-500/20 rounded-2xl p-6 shadow-xl flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
           <div>
             <div className="flex items-center gap-3 mb-2">
-              <span className={`badge ${poll.status === 'active' ? 'badge-cyan animate-pulse' : 'badge-violet'}`}>
+              <span className={`badge ${poll.status === 'active' ? 'badge-rose animate-pulse' : 'badge-violet'}`}>
                 {poll.status === 'active' ? 'Live Results' : 'Final Results'}
               </span>
             </div>
             <h1 className="text-2xl md:text-3xl font-bold text-slate-100">{poll.title}</h1>
           </div>
-          <div className="flex flex-col items-start md:items-end p-4 bg-[#000d1a] rounded-xl border border-indigo-500/10">
+          <div className="flex flex-col items-start md:items-end p-4 bg-[#000d1a] rounded-xl border border-violet-500/10">
             <span className="text-xs text-slate-500 uppercase font-semibold tracking-wider">Total Ballots Cast</span>
-            <span className="text-3xl font-mono text-cyan-400 font-bold">{poll._votes?.length || 0}</span>
+            <span className="text-3xl font-mono text-rose-400 font-bold">{poll._votes?.length || 0}</span>
           </div>
         </div>
 
         {/* Dynamic Content Tabs */}
-        <div className="bg-[#000d1a] border border-cyan-500/15 rounded-2xl shadow-lg overflow-hidden">
-          <div className="flex border-b border-cyan-500/10 bg-[#001224]">
+        <div className="bg-[#000d1a] border border-rose-500/15 rounded-2xl shadow-lg overflow-hidden">
+          <div className="flex border-b border-rose-500/10 bg-[#001224]">
             {[
               { id: 'chart', label: 'Aggregation' },
               { id: 'feed', label: 'Live Tx Feed' },
@@ -94,7 +94,7 @@ export default function ResultsPage({ params }: { params: { pollId: string } }) 
                 onClick={() => setActiveTab(tab.id as any)}
                 className={`flex-1 py-4 text-sm font-medium transition-colors border-b-2 ${
                   activeTab === tab.id 
-                    ? 'border-cyan-400 text-cyan-400 bg-cyan-500/5' 
+                    ? 'border-rose-400 text-rose-400 bg-rose-500/5' 
                     : 'border-transparent text-slate-400 hover:text-slate-200 hover:bg-slate-800/30'
                 }`}
               >
@@ -119,7 +119,7 @@ export default function ResultsPage({ params }: { params: { pollId: string } }) 
             {activeTab === 'share' && (
               <div className="flex flex-col items-center justify-center py-8">
                  <QRCodeDisplay data={shareUrl} label="Share this poll with your community" />
-                 <div className="mt-8 bg-[#001224] border border-cyan-500/10 rounded-lg p-4 flex items-center gap-4 max-w-lg w-full">
+                 <div className="mt-8 bg-[#001224] border border-rose-500/10 rounded-lg p-4 flex items-center gap-4 max-w-lg w-full">
                    <input 
                      type="text" 
                      readOnly 

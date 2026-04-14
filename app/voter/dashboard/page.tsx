@@ -33,7 +33,7 @@ export default function VoterDashboard() {
             placeholder="Search by title or topic..." 
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full bg-[#001224] border border-cyan-500/20 rounded-md py-2 pl-9 pr-4 text-sm text-slate-200 outline-none focus:border-cyan-500/50 transition-colors shadow-inner"
+            className="w-full bg-[#001224] border border-rose-500/20 rounded-md py-2 pl-9 pr-4 text-sm text-slate-200 outline-none focus:border-rose-500/50 transition-colors shadow-inner"
           />
         </div>
       </div>
@@ -47,9 +47,9 @@ export default function VoterDashboard() {
           <SendXLMPanel compact />
         </div>
         <div className="lg:col-span-1">
-          <div className="bg-[#000d1a] border border-cyan-500/15 rounded-xl p-8 flex flex-col items-center justify-center text-center space-y-5 h-full relative overflow-hidden group">
-             <div className="absolute inset-0 bg-cyan-500/5 opacity-0 group-hover:opacity-100 transition-opacity" />
-             <div className="w-16 h-16 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 shadow-xl shadow-indigo-500/10">
+          <div className="bg-[#000d1a] border border-rose-500/15 rounded-xl p-8 flex flex-col items-center justify-center text-center space-y-5 h-full relative overflow-hidden group">
+             <div className="absolute inset-0 bg-rose-500/5 opacity-0 group-hover:opacity-100 transition-opacity" />
+             <div className="w-16 h-16 rounded-2xl bg-violet-500/10 border border-violet-500/20 flex items-center justify-center text-violet-400 shadow-xl shadow-violet-500/10">
                 <Activity size={32} className="animate-pulse" />
              </div>
              <div>
@@ -70,7 +70,7 @@ export default function VoterDashboard() {
           <PollCard key={poll.id} poll={poll} />
         ))}
         {filtered.length === 0 && (
-          <div className="col-span-full py-12 text-center text-slate-500 bg-[#000d1a] border border-cyan-500/10 rounded-xl">
+          <div className="col-span-full py-12 text-center text-slate-500 bg-[#000d1a] border border-rose-500/10 rounded-xl">
              No polls found matching your search.
           </div>
         )}

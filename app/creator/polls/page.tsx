@@ -28,14 +28,14 @@ export default function CreatorPollsPage() {
         </Link>
       </div>
 
-      <div className="flex gap-2 border-b border-cyan-500/10 pb-4">
+      <div className="flex gap-2 border-b border-rose-500/10 pb-4">
         {['all', 'active', 'draft', 'closed'].map((f) => (
           <button
             key={f}
             onClick={() => setFilter(f as any)}
             className={`px-4 py-1.5 rounded-md text-sm font-medium transition-colors ${
               filter === f 
-                ? 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/30' 
+                ? 'bg-rose-500/10 text-rose-400 border border-rose-500/30' 
                 : 'text-slate-400 hover:bg-slate-800/50 hover:text-slate-200 border border-transparent'
             }`}
           >
@@ -44,9 +44,9 @@ export default function CreatorPollsPage() {
         ))}
       </div>
 
-      <div className="bg-[#000d1a] border border-cyan-500/20 rounded-xl overflow-hidden shadow-lg">
+      <div className="bg-[#000d1a] border border-rose-500/20 rounded-xl overflow-hidden shadow-lg">
         <table className="w-full text-left text-sm">
-          <thead className="bg-[#001224] border-b border-cyan-500/10 text-slate-400">
+          <thead className="bg-[#001224] border-b border-rose-500/10 text-slate-400">
             <tr>
               <th className="px-6 py-4 font-medium">Title</th>
               <th className="px-6 py-4 font-medium">Status</th>
@@ -55,13 +55,13 @@ export default function CreatorPollsPage() {
               <th className="px-6 py-4 font-medium">Actions</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-cyan-500/10 text-slate-300">
+          <tbody className="divide-y divide-rose-500/10 text-slate-300">
             {filteredPolls.map((poll) => (
-              <tr key={poll.id} className="hover:bg-cyan-500/5 transition-colors">
+              <tr key={poll.id} className="hover:bg-rose-500/5 transition-colors">
                 <td className="px-6 py-4 font-medium text-slate-200">{poll.title}</td>
                 <td className="px-6 py-4">
                   <span className={`badge ${
-                    poll.status === 'active' ? 'badge-cyan animate-pulse' : 
+                    poll.status === 'active' ? 'badge-rose animate-pulse' : 
                     poll.status === 'closed' ? 'badge-violet' : 
                     'bg-slate-800 text-slate-400 border-slate-700'
                   }`}>
@@ -69,15 +69,15 @@ export default function CreatorPollsPage() {
                   </span>
                 </td>
                 <td className="px-6 py-4">{poll.optionsCount}</td>
-                <td className="px-6 py-4 font-mono text-cyan-400">{poll.totalVotes}</td>
+                <td className="px-6 py-4 font-mono text-rose-400">{poll.totalVotes}</td>
                 <td className="px-6 py-4 flex gap-3 text-xs">
                   {poll.status === 'active' && (
-                    <Link href={`/results/${poll.id}`} className="text-cyan-400 hover:text-cyan-300">
+                    <Link href={`/results/${poll.id}`} className="text-rose-400 hover:text-rose-300">
                       View Results
                     </Link>
                   )}
                   {poll.status === 'draft' && (
-                    <Link href={`/creator/polls/${poll.id}`} className="text-indigo-400 hover:text-indigo-300">
+                    <Link href={`/creator/polls/${poll.id}`} className="text-violet-400 hover:text-violet-300">
                       Manage
                     </Link>
                   )}

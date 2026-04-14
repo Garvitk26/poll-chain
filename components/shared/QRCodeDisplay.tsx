@@ -38,7 +38,7 @@ export default function QRCodeDisplay({
   };
 
   return (
-    <div className="flex flex-col items-center p-6 bg-[#001224] border border-cyan-500/20 rounded-xl max-w-xs mx-auto">
+    <div className="flex flex-col items-center p-6 bg-[#001224] border border-rose-500/20 rounded-xl max-w-xs mx-auto">
       <div className="mb-4 text-center">
         <p className="text-sm font-semibold text-slate-200">{label}</p>
       </div>
@@ -56,14 +56,14 @@ export default function QRCodeDisplay({
       <div className="flex w-full gap-2">
         <button 
           onClick={handleCopy}
-          className="flex-1 flex items-center justify-center gap-2 py-2 px-3 bg-[#000d1a] border border-cyan-500/30 rounded-md text-xs font-medium text-cyan-400 hover:bg-cyan-500/10 transition-colors"
+          className="flex-1 flex items-center justify-center gap-2 py-2 px-3 bg-[#000d1a] border border-rose-500/30 rounded-md text-xs font-medium text-rose-400 hover:bg-rose-500/10 transition-colors"
         >
-          {copied ? <CheckCircle className="w-3.5 h-3.5 text-cyan-500" /> : <Copy className="w-3.5 h-3.5" />}
+          {copied ? <CheckCircle className="w-3.5 h-3.5 text-rose-500" /> : <Copy className="w-3.5 h-3.5" />}
           {copied ? 'Copied' : 'Copy Link'}
         </button>
         <button 
           onClick={handleDownload}
-          className="flex-1 flex items-center justify-center gap-2 py-2 px-3 bg-[#000d1a] border border-indigo-500/30 rounded-md text-xs font-medium text-indigo-400 hover:bg-indigo-500/10 transition-colors"
+          className="flex-1 flex items-center justify-center gap-2 py-2 px-3 bg-[#000d1a] border border-violet-500/30 rounded-md text-xs font-medium text-violet-400 hover:bg-violet-500/10 transition-colors"
         >
           <Download className="w-3.5 h-3.5" />
           Save PNG

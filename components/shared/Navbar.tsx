@@ -29,7 +29,7 @@ export default function Navbar() {
   ];
 
   return (
-    <nav className="sticky top-0 w-full h-16 bg-[rgba(0,8,15,0.85)] border-b border-cyan-500/10 backdrop-blur-md z-50">
+    <nav className="sticky top-0 w-full h-16 bg-[rgba(0,8,15,0.85)] border-b border-rose-500/10 backdrop-blur-md z-50">
       <div className="container mx-auto h-full flex items-center justify-between px-4 sm:px-6">
         {/* Left */}
         <Link href="/" className="text-2xl font-bold gradient-text z-50">
@@ -46,8 +46,8 @@ export default function Navbar() {
                 href={link.href}
                 className={`text-sm font-medium transition-colors ${
                   isActive 
-                    ? 'text-cyan-400 border-b-2 border-cyan-400 gradient-text' 
-                    : 'text-slate-300 hover:text-cyan-300'
+                    ? 'text-rose-400 border-b-2 border-rose-400 gradient-text' 
+                    : 'text-slate-300 hover:text-rose-300'
                 }`}
               >
                 {link.label}
@@ -78,7 +78,7 @@ export default function Navbar() {
 
         {/* Mobile menu toggle */}
         <button 
-          className="md:hidden text-slate-300 hover:text-cyan-400 z-50"
+          className="md:hidden text-slate-300 hover:text-rose-400 z-50"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
         >
           {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -87,7 +87,7 @@ export default function Navbar() {
 
       {/* Mobile Slide-down Panel */}
       <div 
-        className={`md:hidden absolute top-[64px] left-0 w-full bg-[rgba(0,13,26,0.95)] backdrop-blur-lg border-b border-cyan-500/10 transition-all duration-300 ease-in-out overflow-hidden ${
+        className={`md:hidden absolute top-[64px] left-0 w-full bg-[rgba(0,13,26,0.95)] backdrop-blur-lg border-b border-rose-500/10 transition-all duration-300 ease-in-out overflow-hidden ${
           mobileMenuOpen ? 'max-h-96 py-4' : 'max-h-0 py-0 border-opacity-0'
         }`}
       >
@@ -97,13 +97,13 @@ export default function Navbar() {
               key={link.href} 
               href={link.href}
               onClick={() => setMobileMenuOpen(false)}
-              className="text-slate-300 hover:text-cyan-400 font-medium py-2"
+              className="text-slate-300 hover:text-rose-400 font-medium py-2"
             >
               {link.label}
             </Link>
           ))}
           
-          <div className="w-full h-px bg-cyan-500/10 my-2" />
+          <div className="w-full h-px bg-rose-500/10 my-2" />
           
           <div className="flex flex-col gap-3">
             <div className="flex justify-center mb-2">

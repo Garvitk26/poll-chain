@@ -87,7 +87,7 @@ export default function LoginPage() {
   return (
     <main className="min-h-screen flex items-center justify-center p-4">
       <div 
-        className={`w-full max-w-md bg-[#000d1a] border border-cyan-500/20 rounded-xl p-8 shadow-[0_0_40px_rgba(6,182,212,0.05)] ${shake ? 'animate-shake' : ''}`}
+        className={`w-full max-w-md bg-[#000d1a] border border-rose-500/20 rounded-xl p-8 shadow-[0_0_40px_rgba(6,182,212,0.05)] ${shake ? 'animate-shake' : ''}`}
       >
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold gradient-text mb-2">PollChain</h1>
@@ -95,7 +95,7 @@ export default function LoginPage() {
         </div>
 
         {/* Role Toggle */}
-        <div className="flex bg-[#001224] p-1 rounded-lg mb-8 relative border border-cyan-500/10">
+        <div className="flex bg-[#001224] p-1 rounded-lg mb-8 relative border border-rose-500/10">
           <div 
             className="absolute top-1 bottom-1 w-[calc(50%-4px)] rounded-md transition-all duration-200 ease-out"
             style={{ 
@@ -106,14 +106,14 @@ export default function LoginPage() {
           />
           <button
             type="button"
-            className={`flex-1 py-2 text-sm font-medium z-10 transition-colors ${role === 'creator' ? 'text-cyan-400' : 'text-slate-400 hover:text-slate-200'}`}
+            className={`flex-1 py-2 text-sm font-medium z-10 transition-colors ${role === 'creator' ? 'text-rose-400' : 'text-slate-400 hover:text-slate-200'}`}
             onClick={() => setRole('creator')}
           >
             Creator
           </button>
           <button
             type="button"
-            className={`flex-1 py-2 text-sm font-medium z-10 transition-colors ${role === 'voter' ? 'text-indigo-400' : 'text-slate-400 hover:text-slate-200'}`}
+            className={`flex-1 py-2 text-sm font-medium z-10 transition-colors ${role === 'voter' ? 'text-violet-400' : 'text-slate-400 hover:text-slate-200'}`}
             onClick={() => setRole('voter')}
           >
             Voter
@@ -144,7 +144,7 @@ export default function LoginPage() {
             />
             <button
               type="button"
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-cyan-400 text-sm"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-rose-400 text-sm"
               onClick={() => setShowPassword(!showPassword)}
             >
               {showPassword ? 'Hide' : 'Show'}
@@ -155,14 +155,14 @@ export default function LoginPage() {
             <label className="flex items-center space-x-2 cursor-pointer">
               <input
                 type="checkbox"
-                className="rounded border-cyan-500/30 text-cyan-500 focus:ring-cyan-500 bg-[#001224]"
+                className="rounded border-rose-500/30 text-rose-500 focus:ring-rose-500 bg-[#001224]"
                 checked={rememberMe}
                 onChange={(e) => setRememberMe(e.target.checked)}
                 disabled={isLocked}
               />
               <span className="text-slate-300">Remember me</span>
             </label>
-            <Link href="/contact" className="text-cyan-400 hover:text-cyan-300 transition-colors">
+            <Link href="/contact" className="text-rose-400 hover:text-rose-300 transition-colors">
               Forgot password?
             </Link>
           </div>
@@ -188,14 +188,14 @@ export default function LoginPage() {
 
         <div className="mt-6 text-center text-sm text-slate-400">
           New here?{' '}
-          <Link href={`/signup?role=${role}`} className="text-cyan-400 hover:text-cyan-300 transition-colors font-medium">
+          <Link href={`/signup?role=${role}`} className="text-rose-400 hover:text-rose-300 transition-colors font-medium">
             Create account
           </Link>
         </div>
 
         <div className="relative my-8">
           <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-cyan-500/10"></div>
+            <div className="w-full border-t border-rose-500/10"></div>
           </div>
           <div className="relative flex justify-center text-xs">
             <span className="bg-[#000d1a] px-4 text-slate-500">──── or ────</span>

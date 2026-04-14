@@ -87,7 +87,7 @@ export default function SendXLMPanel({ defaultMemo = '', onSuccess, compact = fa
             particleCount: 150,
             spread: 70,
             origin: { y: 0.6 },
-            colors: ['#06b6d4', '#0891b2', '#0e7490']
+            colors: ['#f43f5e', '#0891b2', '#0e7490']
           })
           const newBal = await getXLMBalance(address)
           setBalance(newBal)
@@ -120,12 +120,12 @@ export default function SendXLMPanel({ defaultMemo = '', onSuccess, compact = fa
 
   if (step === 'BUILDING' || step === 'SIGNING' || step === 'BROADCASTING') {
     return (
-      <Card className="border-cyan-500/20 bg-black/60 backdrop-blur-xl">
+      <Card className="border-rose-500/20 bg-black/60 backdrop-blur-xl">
         <CardContent className="flex flex-col items-center justify-center p-12 space-y-6">
           <div className="relative">
-             <div className="absolute inset-0 rounded-full bg-cyan-500/20 animate-ping" />
-             <div className="relative h-16 w-16 rounded-full bg-cyan-600/10 flex items-center justify-center border border-cyan-500/30">
-                <Loader2 className="h-8 w-8 animate-spin text-cyan-500" />
+             <div className="absolute inset-0 rounded-full bg-rose-500/20 animate-ping" />
+             <div className="relative h-16 w-16 rounded-full bg-rose-600/10 flex items-center justify-center border border-rose-500/30">
+                <Loader2 className="h-8 w-8 animate-spin text-rose-500" />
              </div>
           </div>
           <div className="text-center space-y-2">
@@ -177,11 +177,11 @@ export default function SendXLMPanel({ defaultMemo = '', onSuccess, compact = fa
 
           <div className="space-y-3">
              <label className="text-[8px] font-black text-muted-foreground/40 uppercase tracking-[0.2em]">Transaction Artifact</label>
-             <div className="flex gap-2 p-3 bg-black/40 rounded-xl border border-white/5 group transition-all hover:border-cyan-500/20">
+             <div className="flex gap-2 p-3 bg-black/40 rounded-xl border border-white/5 group transition-all hover:border-rose-500/20">
                 <code className="flex-1 text-[10px] font-mono break-all leading-tight opacity-40 group-hover:opacity-100 transition-opacity">
                   {txResult.txHash}
                 </code>
-                <Button variant="ghost" size="icon" className="h-8 w-8 shrink-0 hover:bg-cyan-500/20" onClick={() => {
+                <Button variant="ghost" size="icon" className="h-8 w-8 shrink-0 hover:bg-rose-500/20" onClick={() => {
                   navigator.clipboard.writeText(txResult.txHash)
                   setCopied(true)
                   setTimeout(() => setCopied(false), 2000)
@@ -192,13 +192,13 @@ export default function SendXLMPanel({ defaultMemo = '', onSuccess, compact = fa
           </div>
 
           <div className="pt-2 flex flex-col items-center gap-4">
-            <div className="text-[10px] font-black uppercase tracking-[0.2em] p-4 rounded-2xl bg-cyan-500/5 border border-cyan-500/10 w-full text-center">
+            <div className="text-[10px] font-black uppercase tracking-[0.2em] p-4 rounded-2xl bg-rose-500/5 border border-rose-500/10 w-full text-center">
               <span className="text-muted-foreground">Updated Balance: </span>
-              <span className="text-cyan-400 font-bold">{balance.toFixed(4)} XLM</span>
+              <span className="text-rose-400 font-bold">{balance.toFixed(4)} XLM</span>
             </div>
             
             <div className="flex gap-3 w-full">
-              <Button className="flex-1 bg-cyan-600 h-12 font-black uppercase tracking-widest italic flex items-center gap-2" onClick={() => window.open(`https://stellar.expert/explorer/testnet/tx/${txResult.txHash}`, '_blank')}>
+              <Button className="flex-1 bg-rose-600 h-12 font-black uppercase tracking-widest italic flex items-center gap-2" onClick={() => window.open(`https://stellar.expert/explorer/testnet/tx/${txResult.txHash}`, '_blank')}>
                 <ExternalLink className="h-4 w-4" />
                 View Receipt
               </Button>
@@ -230,14 +230,14 @@ export default function SendXLMPanel({ defaultMemo = '', onSuccess, compact = fa
   }
 
   return (
-    <Card className={`border-cyan-500/20 bg-black/40 backdrop-blur-xl overflow-hidden ${compact ? 'shadow-none border-none' : 'shadow-2xl'}`}>
-      <CardHeader className="bg-cyan-600/5 border-b border-cyan-500/10 py-5">
+    <Card className={`border-rose-500/20 bg-black/40 backdrop-blur-xl overflow-hidden ${compact ? 'shadow-none border-none' : 'shadow-2xl'}`}>
+      <CardHeader className="bg-rose-600/5 border-b border-rose-500/10 py-5">
         <div className="flex items-center justify-between">
           <CardTitle className="text-lg font-black tracking-tight flex items-center gap-2 text-white italic uppercase leading-none">
-            <Send className="h-5 w-5 text-cyan-500" />
+            <Send className="h-5 w-5 text-rose-500" />
             Asset Distribution
           </CardTitle>
-          <Badge variant="outline" className="border-cyan-500/30 text-cyan-400 bg-cyan-500/5 text-[9px] font-black px-2 py-0.5 uppercase tracking-wider">Testnet</Badge>
+          <Badge variant="outline" className="border-rose-500/30 text-rose-400 bg-rose-500/5 text-[9px] font-black px-2 py-0.5 uppercase tracking-wider">Testnet</Badge>
         </div>
       </CardHeader>
       
@@ -247,7 +247,7 @@ export default function SendXLMPanel({ defaultMemo = '', onSuccess, compact = fa
           <div className="space-y-2">
             <div className="flex justify-between items-center">
               <Label htmlFor="destination" className="text-[9px] font-black uppercase tracking-[0.2em] text-muted-foreground/60">Poll Target Identity</Label>
-              <Button variant="ghost" size="sm" className="h-6 text-[9px] font-black uppercase tracking-widest text-cyan-500 hover:bg-cyan-500/10" onClick={handlePaste}>
+              <Button variant="ghost" size="sm" className="h-6 text-[9px] font-black uppercase tracking-widest text-rose-500 hover:bg-rose-500/10" onClick={handlePaste}>
                 <Clipboard className="h-3 w-3 mr-1" />
                 Paste
               </Button>
@@ -257,7 +257,7 @@ export default function SendXLMPanel({ defaultMemo = '', onSuccess, compact = fa
               value={destination}
               onChange={(e) => setDestination(e.target.value)}
               placeholder="Ex: G... (Voter/Creator Asset ID)"
-              className={`font-mono text-xs py-5 bg-white/5 border-white/5 focus:border-cyan-500/30 transition-all ${errors.destination ? 'border-rose-500/50 bg-rose-500/5' : ''}`}
+              className={`font-mono text-xs py-5 bg-white/5 border-white/5 focus:border-rose-500/30 transition-all ${errors.destination ? 'border-rose-500/50 bg-rose-500/5' : ''}`}
             />
             {errors.destination && <p className="text-[9px] font-black text-rose-500 uppercase tracking-widest">{errors.destination}</p>}
           </div>
@@ -267,7 +267,7 @@ export default function SendXLMPanel({ defaultMemo = '', onSuccess, compact = fa
             <div className="flex justify-between items-center">
               <Label htmlFor="amount" className="text-[9px] font-black uppercase tracking-[0.2em] text-muted-foreground/60">Staking Quantity</Label>
               <p className="text-[9px] font-black text-muted-foreground/40 uppercase tracking-widest">
-                Staked: <span className="text-cyan-500">{balance.toFixed(4)} XLM</span>
+                Staked: <span className="text-rose-500">{balance.toFixed(4)} XLM</span>
               </p>
             </div>
             <div className="relative">
@@ -277,10 +277,10 @@ export default function SendXLMPanel({ defaultMemo = '', onSuccess, compact = fa
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
                 placeholder="0.0000"
-                className={`font-mono py-5 bg-white/5 border-white/5 focus:border-cyan-500/30 transition-all ${errors.amount ? 'border-rose-500/50 bg-rose-500/5' : ''}`}
+                className={`font-mono py-5 bg-white/5 border-white/5 focus:border-rose-500/30 transition-all ${errors.amount ? 'border-rose-500/50 bg-rose-500/5' : ''}`}
               />
               <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-2">
-                <Button variant="ghost" size="sm" className="h-6 text-[8px] px-1.5 font-black border border-cyan-500/20 text-cyan-500" onClick={() => setAmount(Math.max(0, balance - 0.1).toFixed(7))}>MAX</Button>
+                <Button variant="ghost" size="sm" className="h-6 text-[8px] px-1.5 font-black border border-rose-500/20 text-rose-500" onClick={() => setAmount(Math.max(0, balance - 0.1).toFixed(7))}>MAX</Button>
                 <span className="text-[10px] font-black text-muted-foreground/30 uppercase italic">XLM</span>
               </div>
             </div>
@@ -295,13 +295,13 @@ export default function SendXLMPanel({ defaultMemo = '', onSuccess, compact = fa
               value={memo}
               onChange={(e) => setMemo(e.target.value.slice(0, 28))}
               placeholder="Ex: PC-VOTE-1a2b3c"
-              className="text-xs py-5 bg-white/5 border-white/5 focus:border-cyan-500/30 transition-all font-bold uppercase placeholder:lowercase"
+              className="text-xs py-5 bg-white/5 border-white/5 focus:border-rose-500/30 transition-all font-bold uppercase placeholder:lowercase"
             />
           </div>
         </div>
 
         <Button 
-          className="w-full py-7 text-sm font-black uppercase tracking-[0.3em] bg-cyan-600 hover:bg-cyan-500 shadow-xl shadow-cyan-500/20 group transition-all italic"
+          className="w-full py-7 text-sm font-black uppercase tracking-[0.3em] bg-rose-600 hover:bg-rose-500 shadow-xl shadow-rose-500/20 group transition-all italic"
           disabled={!destination || !amount || !!errors.destination || !!errors.amount}
           onClick={handleSend}
         >

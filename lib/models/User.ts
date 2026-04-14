@@ -25,7 +25,7 @@ const UserSchema: Schema<IUser> = new Schema({
   passwordHash: { type: String, required: true },
   role: { type: String, enum: ['creator', 'voter'], required: true },
   linkedWallet: { type: String },
-  avatarColor: { type: String, default: '#06b6d4' },
+  avatarColor: { type: String, default: '#f43f5e' },
   createdAt: { type: Date, default: Date.now },
   lastLogin: { type: Date },
   rememberMe: { type: Boolean, default: false },

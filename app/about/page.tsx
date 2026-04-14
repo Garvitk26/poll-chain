@@ -29,7 +29,7 @@ export default function AboutPage() {
           </div>
         </div>
 
-        <div className="bg-[#000d1a] border border-cyan-500/15 rounded-2xl p-8 md:p-12 text-center">
+        <div className="bg-[#000d1a] border border-rose-500/15 rounded-2xl p-8 md:p-12 text-center">
           <h2 className="text-3xl font-bold text-slate-100 mb-6">Meet the Team</h2>
           <p className="text-slate-400 mb-8 max-w-xl mx-auto">
             We are a decentralized group of researchers, cryptography enthusiasts, and developers committed to open-source consensus.

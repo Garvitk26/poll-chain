@@ -55,8 +55,8 @@ export default function CreatorLayout({ children }: { children: React.ReactNode 
   }
 
   const navItems = [
-    { label: 'Dashboard', href: '/creator/dashboard', icon: LayoutDashboard, color: 'text-cyan-400', activeBg: 'bg-cyan-500/10', activeBorder: 'border-cyan-400' },
-    { label: 'Create Poll', href: '/creator/polls/new', icon: PlusCircle, color: 'text-indigo-400', activeBg: 'bg-indigo-500/10', activeBorder: 'border-indigo-400' },
+    { label: 'Dashboard', href: '/creator/dashboard', icon: LayoutDashboard, color: 'text-rose-400', activeBg: 'bg-rose-500/10', activeBorder: 'border-rose-400' },
+    { label: 'Create Poll', href: '/creator/polls/new', icon: PlusCircle, color: 'text-violet-400', activeBg: 'bg-violet-500/10', activeBorder: 'border-violet-400' },
     { label: 'My Polls', href: '/creator/polls', icon: List, color: 'text-violet-400', activeBg: 'bg-violet-500/10', activeBorder: 'border-violet-400' },
     { label: 'Analytics', href: '/creator/analytics', icon: BarChart3, color: 'text-amber-400', activeBg: 'bg-amber-500/10', activeBorder: 'border-amber-400' },
     { label: 'Settings', href: '/creator/settings/account', icon: Settings, color: 'text-slate-400', activeBg: 'bg-slate-500/10', activeBorder: 'border-slate-400' },
@@ -76,13 +76,13 @@ export default function CreatorLayout({ children }: { children: React.ReactNode 
 
       {/* Sidebar */}
       <aside className={cn(
-        "w-64 bg-[#000d1a] border-r border-cyan-500/10 flex flex-col shrink-0 transition-transform duration-300 z-50 overflow-y-auto",
+        "w-64 bg-[#000d1a] border-r border-rose-500/10 flex flex-col shrink-0 transition-transform duration-300 z-50 overflow-y-auto",
         "fixed inset-y-0 left-0 md:static md:translate-x-0",
         sidebarOpen ? "translate-x-0" : "-translate-x-full"
       )}>
         <div className="p-6">
           <Link href="/" className="text-2xl font-black italic tracking-tighter flex items-center gap-2 group">
-            <div className="h-8 w-8 bg-cyan-600 rounded-lg flex items-center justify-center group-hover:rotate-12 transition-transform">
+            <div className="h-8 w-8 bg-rose-600 rounded-lg flex items-center justify-center group-hover:rotate-12 transition-transform">
                <ShieldCheck className="text-white w-5 h-5" />
             </div>
             <span className="gradient-text uppercase">PollChain</span>
@@ -110,11 +110,11 @@ export default function CreatorLayout({ children }: { children: React.ReactNode 
           })}
         </nav>
 
-        <div className="p-4 border-t border-cyan-500/10 bg-black/20">
+        <div className="p-4 border-t border-rose-500/10 bg-black/20">
           <div className="flex items-center gap-3 mb-4 px-2">
             <div 
               className="w-10 h-10 rounded-xl flex items-center justify-center text-white font-black border border-white/10 italic shadow-lg"
-              style={{ backgroundColor: session.user.avatarColor || '#06b6d4' }}
+              style={{ backgroundColor: session.user.avatarColor || '#f43f5e' }}
             >
               {session.user.name?.charAt(0).toUpperCase()}
             </div>
@@ -138,7 +138,7 @@ export default function CreatorLayout({ children }: { children: React.ReactNode 
         {/* Mobile Toggle */}
         <button 
           onClick={() => setSidebarOpen(!sidebarOpen)}
-          className="fixed top-20 left-4 z-[60] bg-cyan-600 text-white p-2 rounded-lg md:hidden shadow-lg border border-cyan-400/50"
+          className="fixed top-20 left-4 z-[60] bg-rose-600 text-white p-2 rounded-lg md:hidden shadow-lg border border-rose-400/50"
         >
           {sidebarOpen ? <X size={20} /> : <Menu size={20} />}
         </button>

@@ -34,7 +34,7 @@ export default function SignupPage() {
   };
 
   const strength = calculateStrength(password);
-  const strengthColors = ['bg-rose-500', 'bg-amber-500', 'bg-yellow-500', 'bg-cyan-500'];
+  const strengthColors = ['bg-rose-500', 'bg-amber-500', 'bg-yellow-500', 'bg-rose-500'];
 
   const handleRoleSelect = (selectedRole: 'creator' | 'voter') => {
     setRole(selectedRole);
@@ -92,22 +92,22 @@ export default function SignupPage() {
           {/* Creator Card */}
           <button 
             onClick={() => handleRoleSelect('creator')}
-            className="flex flex-col items-start p-8 bg-[#000d1a] border border-cyan-500/20 rounded-2xl transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_0_30px_rgba(6,182,212,0.15)] hover:border-cyan-500/50 text-left group"
+            className="flex flex-col items-start p-8 bg-[#000d1a] border border-rose-500/20 rounded-2xl transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_0_30px_rgba(6,182,212,0.15)] hover:border-rose-500/50 text-left group"
           >
-            <div className="w-12 h-12 rounded-xl bg-cyan-500/10 flex items-center justify-center text-cyan-400 mb-6 group-hover:scale-110 transition-transform">
+            <div className="w-12 h-12 rounded-xl bg-rose-500/10 flex items-center justify-center text-rose-400 mb-6 group-hover:scale-110 transition-transform">
               <BarChart2 className="w-6 h-6" />
             </div>
             <h2 className="text-2xl font-bold text-slate-100 mb-2">I'm a Poll Creator</h2>
             <p className="text-slate-400 mb-8 h-12">Launch polls and get verifiable on-chain results</p>
             <ul className="space-y-3 text-sm text-slate-300 flex-grow">
               <li className="flex items-center">
-                <span className="text-cyan-400 mr-2">✓</span> Create unlimited polls
+                <span className="text-rose-400 mr-2">✓</span> Create unlimited polls
               </li>
               <li className="flex items-center">
-                <span className="text-cyan-400 mr-2">✓</span> Real-time Stellar vote tracking
+                <span className="text-rose-400 mr-2">✓</span> Real-time Stellar vote tracking
               </li>
               <li className="flex items-center">
-                <span className="text-cyan-400 mr-2">✓</span> Share public vote links
+                <span className="text-rose-400 mr-2">✓</span> Share public vote links
               </li>
             </ul>
           </button>
@@ -115,28 +115,28 @@ export default function SignupPage() {
           {/* Voter Card */}
           <button 
             onClick={() => handleRoleSelect('voter')}
-            className="flex flex-col items-start p-8 bg-[#000d1a] border border-indigo-500/20 rounded-2xl transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_0_30px_rgba(99,102,241,0.15)] hover:border-indigo-500/50 text-left group"
+            className="flex flex-col items-start p-8 bg-[#000d1a] border border-violet-500/20 rounded-2xl transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_0_30px_rgba(99,102,241,0.15)] hover:border-violet-500/50 text-left group"
           >
-            <div className="w-12 h-12 rounded-xl bg-indigo-500/10 flex items-center justify-center text-indigo-400 mb-6 group-hover:scale-110 transition-transform">
+            <div className="w-12 h-12 rounded-xl bg-violet-500/10 flex items-center justify-center text-violet-400 mb-6 group-hover:scale-110 transition-transform">
               <CheckSquare className="w-6 h-6" />
             </div>
             <h2 className="text-2xl font-bold text-slate-100 mb-2">I'm a Voter</h2>
             <p className="text-slate-400 mb-8 h-12">Cast tamper-proof votes with your Stellar wallet</p>
             <ul className="space-y-3 text-sm text-slate-300 flex-grow">
               <li className="flex items-center">
-                <span className="text-indigo-400 mr-2">✓</span> Vote with Freighter wallet
+                <span className="text-violet-400 mr-2">✓</span> Vote with Freighter wallet
               </li>
               <li className="flex items-center">
-                <span className="text-indigo-400 mr-2">✓</span> Verify your vote on Stellar Explorer
+                <span className="text-violet-400 mr-2">✓</span> Verify your vote on Stellar Explorer
               </li>
               <li className="flex items-center">
-                <span className="text-indigo-400 mr-2">✓</span> Discover public polls
+                <span className="text-violet-400 mr-2">✓</span> Discover public polls
               </li>
             </ul>
           </button>
         </div>
         <div className="mt-10">
-          <Link href="/login" className="text-slate-400 hover:text-cyan-400 transition-colors">
+          <Link href="/login" className="text-slate-400 hover:text-rose-400 transition-colors">
             Already have an account? Sign in
           </Link>
         </div>
@@ -146,10 +146,10 @@ export default function SignupPage() {
 
   return (
     <main className="min-h-screen flex items-center justify-center p-4">
-      <div className="w-full max-w-md bg-[#000d1a] border border-cyan-500/20 rounded-xl p-8 shadow-[0_0_40px_rgba(6,182,212,0.05)] relative">
+      <div className="w-full max-w-md bg-[#000d1a] border border-rose-500/20 rounded-xl p-8 shadow-[0_0_40px_rgba(6,182,212,0.05)] relative">
         <button 
           onClick={() => setStep(1)}
-          className="absolute top-8 left-8 text-slate-400 hover:text-cyan-400 transition-colors"
+          className="absolute top-8 left-8 text-slate-400 hover:text-rose-400 transition-colors"
         >
           <ChevronLeft className="w-5 h-5" />
         </button>
@@ -157,7 +157,7 @@ export default function SignupPage() {
         <div className="text-center mb-8">
           <h2 className="text-2xl font-bold text-slate-100 mb-2">Create Account</h2>
           <div className="flex justify-center mt-2">
-            <span className={`px-3 py-1 text-xs font-semibold rounded-full border ${role === 'creator' ? 'bg-cyan-500/10 text-cyan-400 border-cyan-500/30' : 'bg-indigo-500/10 text-indigo-400 border-indigo-500/30'}`}>
+            <span className={`px-3 py-1 text-xs font-semibold rounded-full border ${role === 'creator' ? 'bg-rose-500/10 text-rose-400 border-rose-500/30' : 'bg-violet-500/10 text-violet-400 border-violet-500/30'}`}>
               {role === 'creator' ? 'Poll Creator' : 'Voter'}
             </span>
           </div>
@@ -199,7 +199,7 @@ export default function SignupPage() {
                 {[1, 2, 3, 4].map((level) => (
                   <div 
                     key={level} 
-                    className={`h-1 flex-1 rounded-full ${strength >= level ? strengthColors[strength - 1] || 'bg-cyan-500' : 'bg-slate-800'}`}
+                    className={`h-1 flex-1 rounded-full ${strength >= level ? strengthColors[strength - 1] || 'bg-rose-500' : 'bg-slate-800'}`}
                   />
                 ))}
               </div>
@@ -215,7 +215,7 @@ export default function SignupPage() {
               onChange={(e) => setConfirmPassword(e.target.value)}
             />
             {confirmPassword && confirmPassword === password && (
-              <span className="absolute right-3 top-1/2 -translate-y-1/2 text-cyan-500 text-xs font-bold font-mono">
+              <span className="absolute right-3 top-1/2 -translate-y-1/2 text-rose-500 text-xs font-bold font-mono">
                 MATCH
               </span>
             )}
@@ -226,7 +226,7 @@ export default function SignupPage() {
           <button
             type="submit"
             disabled={loading}
-            className={`w-full flex items-center justify-center py-3 rounded-md font-medium text-white transition-all duration-300 relative overflow-hidden ${role === 'creator' ? 'bg-gradient-to-r from-cyan-500 to-indigo-500 shadow-[0_0_15px_rgba(6,182,212,0.3)] hover:-translate-y-1' : 'bg-gradient-to-r from-indigo-500 to-violet-500 shadow-[0_0_15px_rgba(99,102,241,0.3)] hover:-translate-y-1'}`}
+            className={`w-full flex items-center justify-center py-3 rounded-md font-medium text-white transition-all duration-300 relative overflow-hidden ${role === 'creator' ? 'bg-gradient-to-r from-rose-500 to-violet-500 shadow-[0_0_15px_rgba(6,182,212,0.3)] hover:-translate-y-1' : 'bg-gradient-to-r from-violet-500 to-violet-500 shadow-[0_0_15px_rgba(99,102,241,0.3)] hover:-translate-y-1'}`}
           >
             {loading ? <div className="spin-ring border-white/30 border-t-white" /> : 'Create Account'}
           </button>

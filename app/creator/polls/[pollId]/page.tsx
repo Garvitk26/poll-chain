@@ -36,7 +36,7 @@ export default function ActivePollManagement({ params }: { params: { pollId: str
     <div className="space-y-6 max-w-5xl mx-auto">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <span className={`badge ${poll.status === 'active' ? 'badge-cyan animate-pulse' : 'badge-slate'} mb-2 inline-block`}>
+          <span className={`badge ${poll.status === 'active' ? 'badge-rose animate-pulse' : 'badge-slate'} mb-2 inline-block`}>
             {poll.status.toUpperCase()}
           </span>
           <h1 className="text-2xl font-bold text-slate-100">{poll.title}</h1>
@@ -55,15 +55,15 @@ export default function ActivePollManagement({ params }: { params: { pollId: str
         
         {/* Main Details Panel */}
         <div className="md:col-span-2 space-y-6">
-          <div className="bg-[#000d1a] border border-cyan-500/15 rounded-xl p-6">
+          <div className="bg-[#000d1a] border border-rose-500/15 rounded-xl p-6">
             <h2 className="text-lg font-semibold text-slate-200 mb-4 flex items-center gap-2">
-              <Settings className="w-5 h-5 text-indigo-400" /> Operational Details
+              <Settings className="w-5 h-5 text-violet-400" /> Operational Details
             </h2>
             
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               <div className="space-y-1">
                 <span className="text-xs text-slate-500 uppercase tracking-widest font-semibold">Collector Address</span>
-                <p className="font-mono text-sm text-cyan-400 bg-cyan-900/10 border border-cyan-500/20 p-2 rounded truncate select-all">{poll.collectorWallet}</p>
+                <p className="font-mono text-sm text-rose-400 bg-rose-900/10 border border-rose-500/20 p-2 rounded truncate select-all">{poll.collectorWallet}</p>
               </div>
               <div className="space-y-1">
                 <span className="text-xs text-slate-500 uppercase tracking-widest font-semibold">Total Votes Received</span>
@@ -71,13 +71,13 @@ export default function ActivePollManagement({ params }: { params: { pollId: str
               </div>
             </div>
 
-            <div className="mt-8 border-t border-cyan-500/10 pt-6">
+            <div className="mt-8 border-t border-rose-500/10 pt-6">
               <h3 className="text-sm font-semibold text-slate-300 mb-4">Option Code Mapping</h3>
               <div className="space-y-3 relative">
                 {poll.options.map((opt: any) => (
                   <div key={opt.id} className="flex items-center justify-between p-3 bg-[#001224] border border-slate-800 rounded-lg">
                     <span className="text-slate-200 text-sm font-medium">{opt.label}</span>
-                    <span className="font-mono text-xs text-indigo-400 bg-indigo-500/10 px-2 py-1 rounded border border-indigo-500/20">{opt.memo}</span>
+                    <span className="font-mono text-xs text-violet-400 bg-violet-500/10 px-2 py-1 rounded border border-violet-500/20">{opt.memo}</span>
                   </div>
                 ))}
               </div>
@@ -87,14 +87,14 @@ export default function ActivePollManagement({ params }: { params: { pollId: str
 
         {/* Action / Share Panel */}
         <div className="space-y-6">
-          <div className="bg-[#000d1a] border border-cyan-500/15 rounded-xl flex flex-col items-center p-6 text-center">
+          <div className="bg-[#000d1a] border border-rose-500/15 rounded-xl flex flex-col items-center p-6 text-center">
              <h2 className="text-sm font-semibold text-slate-200 mb-4">Participant Access</h2>
              <QRCodeDisplay data={shareUrl} size={150} />
              <div className="w-full mt-4">
                 <input 
                   readOnly 
                   value={shareUrl} 
-                  className="w-full bg-[#001224] text-xs font-mono text-slate-400 border border-cyan-500/10 px-3 py-2 rounded text-center outline-none select-all"
+                  className="w-full bg-[#001224] text-xs font-mono text-slate-400 border border-rose-500/10 px-3 py-2 rounded text-center outline-none select-all"
                 />
              </div>
           </div>

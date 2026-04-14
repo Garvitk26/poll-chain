@@ -11,8 +11,8 @@ export default function VoterProfile() {
     <div className="max-w-2xl mx-auto space-y-6">
       <h1 className="text-2xl font-bold text-slate-100 mb-6">Voter Profile</h1>
 
-      <div className="bg-[#000d1a] border border-cyan-500/15 rounded-xl p-6 md:p-8">
-        <div className="flex items-center gap-4 mb-8 pb-8 border-b border-cyan-500/10">
+      <div className="bg-[#000d1a] border border-rose-500/15 rounded-xl p-6 md:p-8">
+        <div className="flex items-center gap-4 mb-8 pb-8 border-b border-rose-500/10">
           <div 
             className="w-16 h-16 rounded-full flex items-center justify-center text-xl font-bold text-white shadow-lg"
             style={{ backgroundColor: session?.user?.avatarColor || '#6366f1' }}
@@ -27,7 +27,7 @@ export default function VoterProfile() {
 
         <div className="space-y-6">
           <div className="flex items-start gap-4">
-            <div className="p-2 bg-indigo-500/10 rounded-lg text-indigo-400 mt-1">
+            <div className="p-2 bg-violet-500/10 rounded-lg text-violet-400 mt-1">
               <ShieldCheck className="w-5 h-5" />
             </div>
             <div>

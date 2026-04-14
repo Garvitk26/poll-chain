@@ -16,7 +16,7 @@ export default function Toast() {
 
         switch (toast.type) {
           case 'success':
-            borderClass = 'border-cyan-500/50 shadow-[0_0_15px_rgba(6,182,212,0.2)] bg-cyan-900/20 text-cyan-50';
+            borderClass = 'border-rose-500/50 shadow-[0_0_15px_rgba(6,182,212,0.2)] bg-rose-900/20 text-rose-50';
             break;
           case 'error':
             borderClass = 'border-rose-500/50 shadow-[0_0_15px_rgba(244,63,94,0.2)] bg-rose-900/20 text-rose-50';
@@ -25,7 +25,7 @@ export default function Toast() {
             borderClass = 'border-amber-500/50 shadow-[0_0_15px_rgba(245,158,11,0.2)] bg-amber-900/20 text-amber-50';
             break;
           case 'info':
-            borderClass = 'border-indigo-500/50 shadow-[0_0_15px_rgba(99,102,241,0.2)] bg-indigo-900/20 text-indigo-50';
+            borderClass = 'border-violet-500/50 shadow-[0_0_15px_rgba(99,102,241,0.2)] bg-violet-900/20 text-violet-50';
             break;
         }
 

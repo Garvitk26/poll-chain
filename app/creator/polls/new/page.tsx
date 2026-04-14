@@ -76,7 +76,7 @@ export default function NewPollPage() {
       <form onSubmit={handleSubmit} className="space-y-8">
         
         {/* Core Details */}
-        <div className="bg-[#000d1a] border border-cyan-500/15 rounded-xl p-6 md:p-8 shadow-lg">
+        <div className="bg-[#000d1a] border border-rose-500/15 rounded-xl p-6 md:p-8 shadow-lg">
           <h2 className="text-lg font-semibold text-slate-200 mb-6">General Information</h2>
           <div className="space-y-4">
             <div>
@@ -104,7 +104,7 @@ export default function NewPollPage() {
         </div>
 
         {/* Options */}
-        <div className="bg-[#000d1a] border border-cyan-500/15 rounded-xl p-6 md:p-8 shadow-lg">
+        <div className="bg-[#000d1a] border border-rose-500/15 rounded-xl p-6 md:p-8 shadow-lg">
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-lg font-semibold text-slate-200">Voting Options</h2>
             <span className="text-xs text-slate-500">{options.length}/10 slots used</span>
@@ -112,7 +112,7 @@ export default function NewPollPage() {
 
           <div className="space-y-4 mb-6">
             {options.map((opt, i) => (
-              <div key={opt.id} className="flex flex-col sm:flex-row gap-3 items-start sm:items-start p-4 border border-cyan-500/10 rounded-lg bg-slate-800/20">
+              <div key={opt.id} className="flex flex-col sm:flex-row gap-3 items-start sm:items-start p-4 border border-rose-500/10 rounded-lg bg-slate-800/20">
                 <div className="w-full sm:flex-1">
                   <label className="block text-xs font-medium text-slate-400 mb-1">Display Label</label>
                   <input
@@ -163,16 +163,16 @@ export default function NewPollPage() {
             type="button" 
             onClick={handleAddOption}
             disabled={options.length >= 10}
-            className="w-full py-3 border border-dashed border-cyan-500/30 rounded-lg text-cyan-400 text-sm hover:bg-cyan-500/10 transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full py-3 border border-dashed border-rose-500/30 rounded-lg text-rose-400 text-sm hover:bg-rose-500/10 transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <Plus className="w-4 h-4" /> Add Another Option
           </button>
         </div>
 
         {/* Security Settings */}
-        <div className="bg-[#000d1a] border border-cyan-500/15 rounded-xl p-6 md:p-8 shadow-lg">
+        <div className="bg-[#000d1a] border border-rose-500/15 rounded-xl p-6 md:p-8 shadow-lg">
           <h2 className="text-lg font-semibold text-slate-200 mb-6 flex items-center gap-2">
-            <ShieldAlert className="w-5 h-5 text-indigo-400" /> Security Settings
+            <ShieldAlert className="w-5 h-5 text-violet-400" /> Security Settings
           </h2>
           <label className="flex items-start gap-3 cursor-pointer group">
             <div className="relative flex items-start pt-1">
@@ -182,7 +182,7 @@ export default function NewPollPage() {
                 onChange={e => setFormData({ ...formData, requireWallet: e.target.checked })}
                 className="peer sr-only"
               />
-              <div className="w-5 h-5 border-2 border-cyan-500/30 rounded bg-[#001224] peer-checked:bg-cyan-500 peer-checked:border-cyan-500 transition-colors after:content-[''] after:absolute after:hidden peer-checked:after:block after:left-1.5 after:top-1.5 after:w-2 after:h-2 after:bg-white after:rounded-sm"></div>
+              <div className="w-5 h-5 border-2 border-rose-500/30 rounded bg-[#001224] peer-checked:bg-rose-500 peer-checked:border-rose-500 transition-colors after:content-[''] after:absolute after:hidden peer-checked:after:block after:left-1.5 after:top-1.5 after:w-2 after:h-2 after:bg-white after:rounded-sm"></div>
             </div>
             <div>
               <p className="font-medium text-slate-200">Require Valid Freighter Session</p>

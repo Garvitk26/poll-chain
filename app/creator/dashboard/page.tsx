@@ -9,8 +9,8 @@ import { Activity } from 'lucide-react';
 
 export default function CreatorDashboard() {
   const stats = [
-    { label: 'Total Active Polls', value: '3', icon: Zap, color: 'text-cyan-400', bg: 'bg-cyan-500/10' },
-    { label: 'Total Ballots Cast', value: '1,284', icon: Users, color: 'text-indigo-400', bg: 'bg-indigo-500/10' },
+    { label: 'Total Active Polls', value: '3', icon: Zap, color: 'text-rose-400', bg: 'bg-rose-500/10' },
+    { label: 'Total Ballots Cast', value: '1,284', icon: Users, color: 'text-violet-400', bg: 'bg-violet-500/10' },
     { label: 'Avg Engagement Rate', value: '64%', icon: BarChart3, color: 'text-violet-400', bg: 'bg-violet-500/10' },
   ];
 
@@ -34,7 +34,7 @@ export default function CreatorDashboard() {
       {/* KPI Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {stats.map((stat, i) => (
-          <div key={i} className="bg-[#000d1a] border border-cyan-500/15 rounded-xl p-6 relative overflow-hidden group hover:border-cyan-500/30 transition-colors">
+          <div key={i} className="bg-[#000d1a] border border-rose-500/15 rounded-xl p-6 relative overflow-hidden group hover:border-rose-500/30 transition-colors">
             <div className={`absolute -right-6 -top-6 w-24 h-24 rounded-full ${stat.bg} blur-2xl group-hover:scale-150 transition-transform duration-500`} />
             <div className={`w-10 h-10 rounded-lg ${stat.bg} ${stat.color} flex items-center justify-center mb-4`}>
               <stat.icon className="w-5 h-5" />
@@ -54,9 +54,9 @@ export default function CreatorDashboard() {
           <SendXLMPanel compact />
         </div>
         <div className="lg:col-span-1">
-          <div className="bg-[#000d1a] border border-cyan-500/15 rounded-xl p-8 flex flex-col items-center justify-center text-center space-y-5 h-full relative overflow-hidden group">
-             <div className="absolute inset-0 bg-cyan-500/5 opacity-0 group-hover:opacity-100 transition-opacity" />
-             <div className="w-16 h-16 rounded-2xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 shadow-xl shadow-cyan-500/10">
+          <div className="bg-[#000d1a] border border-rose-500/15 rounded-xl p-8 flex flex-col items-center justify-center text-center space-y-5 h-full relative overflow-hidden group">
+             <div className="absolute inset-0 bg-rose-500/5 opacity-0 group-hover:opacity-100 transition-opacity" />
+             <div className="w-16 h-16 rounded-2xl bg-rose-500/10 border border-rose-500/20 flex items-center justify-center text-rose-400 shadow-xl shadow-rose-500/10">
                 <Activity size={32} className="animate-pulse" />
              </div>
              <div>
@@ -76,9 +76,9 @@ export default function CreatorDashboard() {
         
         {/* Main Content Area */}
         <div className="lg:col-span-2 space-y-6">
-          <div className="flex justify-between items-center pb-2 border-b border-cyan-500/10">
+          <div className="flex justify-between items-center pb-2 border-b border-rose-500/10">
             <h2 className="text-lg font-semibold text-slate-200">Recent Polls</h2>
-            <Link href="/creator/polls" className="text-sm text-cyan-400 hover:text-cyan-300 flex items-center gap-1 transition-colors">
+            <Link href="/creator/polls" className="text-sm text-rose-400 hover:text-rose-300 flex items-center gap-1 transition-colors">
               View all <ArrowUpRight className="w-3 h-3" />
             </Link>
           </div>
@@ -91,15 +91,15 @@ export default function CreatorDashboard() {
 
         {/* Sidebar Widgets Area */}
         <div className="space-y-6">
-          <div className="bg-[#000d1a] border border-cyan-500/15 rounded-xl p-6">
+          <div className="bg-[#000d1a] border border-rose-500/15 rounded-xl p-6">
             <h2 className="text-sm font-semibold text-slate-200 mb-4 tracking-wide uppercase">Quick Tips</h2>
             <ul className="space-y-4 text-sm text-slate-400">
               <li className="flex items-start gap-2">
-                <div className="w-1.5 h-1.5 rounded-full bg-cyan-500 mt-1.5 flex-shrink-0" />
+                <div className="w-1.5 h-1.5 rounded-full bg-rose-500 mt-1.5 flex-shrink-0" />
                 <p>Keep your option memos under 8 characters to save space on the Ledger transaction.</p>
               </li>
               <li className="flex items-start gap-2">
-                <div className="w-1.5 h-1.5 rounded-full bg-indigo-500 mt-1.5 flex-shrink-0" />
+                <div className="w-1.5 h-1.5 rounded-full bg-violet-500 mt-1.5 flex-shrink-0" />
                 <p>Embed the QR codes onto your presentation slides for live audience interactions.</p>
               </li>
             </ul>
