@@ -3,7 +3,8 @@ import connectDB from '@/lib/db';
 import Poll from '@/lib/models/Poll';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
-import { getVotesFromHorizon, decryptSecret } from '@/lib/stellar';
+import { getVotesFromHorizon } from '@/lib/stellar';
+import { decryptSecret } from '@/lib/stellar-server';
 
 // NOTE: Close decrypts secret server-side only in a production app if doing stellar account merges, 
 // but for the audit we simply fetch final tally and lock it.

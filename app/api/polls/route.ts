@@ -3,7 +3,8 @@ import connectDB from '@/lib/db';
 import Poll from '@/lib/models/Poll';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
-import { generateCollectorKeypair, encryptSecret, fundWithFriendbot } from '@/lib/stellar';
+import { generateCollectorKeypair, fundWithFriendbot } from '@/lib/stellar';
+import { encryptSecret } from '@/lib/stellar-server';
 
 export async function GET(request: Request) {
   try {

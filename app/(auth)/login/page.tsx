@@ -70,10 +70,17 @@ export default function LoginPage() {
         setError(res.error);
       }
     } else {
+      // Refresh the router to ensure middleware/layouts pick up the new session
+      router.refresh();
+      
       if (returnUrl) {
         router.push(returnUrl);
       } else {
-        router.push(role === 'creator' ? '/creator/dashboard' : '/voter/dashboard');
+        // Fetch the actual session to get the real role from the server
+        const { getSession } = await import('next-auth/react');
+        const session = await getSession();
+        const userRole = session?.user?.role || role;
+        router.push(userRole === 'creator' ? '/creator/dashboard' : '/voter/dashboard');
       }
     }
   };
