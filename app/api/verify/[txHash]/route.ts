@@ -29,7 +29,7 @@ export async function GET(request: Request, { params }: { params: { txHash: stri
     // Merge knowledge
     return NextResponse.json({ 
        verified: true,
-       tx: txDetail || { hash: params.txHash, memo: vote?.optionMemo, sourceAccount: vote?.voterWallet },
+       tx: txDetail ? { ...txDetail, status: txDetail.successful ? 'Success' : 'Failed' } : { hash: params.txHash, memo: vote?.optionMemo, sourceAccount: vote?.voterWallet, status: 'Success' },
        dbRecord: vote,
        poll: pollDetails
     });

@@ -100,7 +100,7 @@ export default function ActivePollManagement({ params }: { params: { pollId: str
   if (loading) return <DashboardSkeleton />;
   if (!poll) return <p className="text-rose-500">Not found</p>;
 
-  const shareUrl = typeof window !== 'undefined' ? `${window.location.origin}/poll/${poll.id}` : '';
+  const shareUrl = typeof window !== 'undefined' ? `${window.location.origin}/poll/${poll._id}` : '';
 
   return (
     <div className="space-y-6 max-w-5xl mx-auto">

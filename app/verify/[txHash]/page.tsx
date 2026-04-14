@@ -68,7 +68,7 @@ export default function VerifyPage({ params }: { params: { txHash: string } }) {
               <span className="text-sm text-slate-400">Status</span>
               <span className="badge badge-rose px-3 py-1 font-semibold flex items-center gap-1.5">
                 <div className="w-2 h-2 rounded-full border border-rose-200 bg-rose-500" />
-                {tx.status.toUpperCase()}
+                {tx.status?.toUpperCase() || (tx.successful ? 'SUCCESS' : 'PENDING')}
               </span>
             </div>
 
