@@ -150,7 +150,6 @@ export default function CreatorLayout({ children }: { children: React.ReactNode 
             </span>
           </div>
         )}
-        <WalletStatusBar />
         <main className="flex-1 overflow-y-auto pt-4 md:pt-8 px-4 md:px-8 pb-12">
           {children}
         </main>

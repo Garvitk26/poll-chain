@@ -5,8 +5,7 @@ import { PollProvider } from '@/lib/context/PollContext';
 import { ToastProvider } from '@/lib/context/ToastContext';
 import { ConfettiProvider } from '@/components/shared/Confetti';
 import Toast from '@/components/shared/Toast';
-import Navbar from '@/components/shared/Navbar';
-import WalletStatusBar from '@/components/shared/WalletStatusBar';
+import HeaderController from '@/components/shared/HeaderController';
 import Footer from '@/components/shared/Footer';
 import AuthProvider from '@/components/shared/AuthProvider';
 
@@ -38,8 +37,7 @@ export default function RootLayout({
             <ConfettiProvider>
               <PollProvider>
                 <div className="relative z-10 flex flex-col min-h-screen">
-                  <WalletStatusBar />
-                  <Navbar />
+                  <HeaderController />
                   <main className="flex-grow">
                     {children}
                   </main>
