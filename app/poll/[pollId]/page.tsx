@@ -50,32 +50,51 @@ export default function PublicPollPage({ params }: { params: { pollId: string } 
        }
     }
 
+    const { sendXLM, getXLMBalance } = await import('@/lib/stellar');
+    const { address } = await getAddress();
+    if (!address) {
+      showToast('No wallet address found', 'error');
+      return;
+    }
+
+    const option = poll.options.find((o: any) => o.id === selectedOption);
+    if (!option) return;
+
     setVoting(true);
     
     try {
-      // Use real API call
-      const res = await fetch(`/api/polls/${poll.id}/vote`, {
+      // 1. Send the XLM transaction (Real vote)
+      const result = await sendXLM({
+        sourcePublicKey: address,
+        destinationAddress: poll.collectorWallet,
+        amountXLM: poll.voteAmount?.toString() || "0.00001",
+        memo: option.memo
+      });
+
+      if (!result.success) {
+        throw new Error(result.error || 'Transaction failed');
+      }
+
+      // 2. Record vote in DB via API (Real verification)
+      const res = await fetch(`/api/polls/${poll._id}/vote`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ txHash: 'mock-tx-hash-' + Date.now() })
+        body: JSON.stringify({ txHash: result.txHash })
       });
+
       if (!res.ok) {
         const errorData = await res.json();
-        throw new Error(errorData.error || 'Transaction failed');
+        throw new Error(errorData.error || 'Vote recording failed');
       }
       
-      const { txHash: confirmedHash } = await res.json();
-      setLastTxHash(confirmedHash || "mock-tx-hash-" + Date.now());
+      const { vote } = await res.json();
+      setLastTxHash(result.txHash);
       
       // Fetch fresh balance
       try {
-        const res = await getAddress();
-        const addr = typeof res === 'object' && 'address' in res ? res.address : res;
-        if (addr) {
-          setWalletAddr(addr as string);
-          const bal = await getAccountBalance(addr as string);
-          setUpdatedBalance(bal);
-        }
+        const bal = await getXLMBalance(address);
+        setUpdatedBalance(bal.toFixed(7));
+        setWalletAddr(address);
       } catch (e) {}
 
       setShowSuccessCard(true);
