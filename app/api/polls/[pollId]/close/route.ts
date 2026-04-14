@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import connectDB from '@/lib/db';
 import Poll from '@/lib/models/Poll';
 import { getServerSession } from 'next-auth';
-import { authOptions } from '../../../auth/[...nextauth]/route';
+import { authOptions } from '@/lib/auth';
 import { getVotesFromHorizon, decryptSecret } from '@/lib/stellar';
 
 // NOTE: Close decrypts secret server-side only in a production app if doing stellar account merges, 

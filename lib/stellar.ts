@@ -266,3 +266,19 @@ export async function getVotesFromHorizon(collectorWallet: string, options: any[
     return { tally: options.map(o => ({ ...o, votes: 0 })), totalVotes: 0, votes: [] };
   }
 }
+
+export async function checkHasVoted(collectorWallet: string, voterWallet: string): Promise<boolean> {
+  try {
+    const transactions = await server.transactions()
+      .forAccount(collectorWallet)
+      .limit(200)
+      .order('desc')
+      .call();
+    
+    return transactions.records.some(
+      tx => tx.successful && tx.source_account === voterWallet
+    );
+  } catch {
+    return false;
+  }
+}

@@ -3,7 +3,7 @@ import connectDB from '@/lib/db';
 import Poll from '@/lib/models/Poll';
 import { getVotesFromHorizon } from '@/lib/stellar';
 import { getServerSession } from 'next-auth';
-import { authOptions } from '../../auth/[...nextauth]/route';
+import { authOptions } from '@/lib/auth';
 
 export async function POST(request: Request, { params }: { params: { pollId: string } }) {
   try {

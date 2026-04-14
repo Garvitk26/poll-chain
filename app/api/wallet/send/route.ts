@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { Server } from '@stellar/stellar-sdk'
+import { Horizon } from '@stellar/stellar-sdk'
 
 const HORIZON_URL = process.env.NEXT_PUBLIC_STELLAR_HORIZON || 'https://horizon-testnet.stellar.org'
-const server = new Server(HORIZON_URL)
+const server = new Horizon.Server(HORIZON_URL)
 
 export async function POST(req: NextRequest) {
   try {
