@@ -11,7 +11,10 @@ import {
 import { 
   isConnected, 
   getAddress, 
-  signTransaction 
+  signTransaction,
+  requestAccess,
+  isAllowed,
+  setAllowed
 } from '@stellar/freighter-api'
 
 const HORIZON_URL = process.env.NEXT_PUBLIC_STELLAR_HORIZON 
@@ -47,11 +50,30 @@ export async function connectFreighter(): Promise<{
   if (result.error || !result.isConnected) throw new Error('Freighter not installed');
 
   try {
-    const { address } = await getAddress();
-    if (!address) throw new Error('Could not get address from Freighter');
-    return { publicKey: address, network: 'TESTNET' };
+    // First, request access (prompts user to whitelist the site)
+    const accessResult = await requestAccess();
+    
+    if (accessResult.error) {
+      throw new Error(accessResult.error.message || 'Freighter access denied');
+    }
+    
+    if (accessResult.address) {
+      return { publicKey: accessResult.address, network: 'TESTNET' };
+    }
+
+    // Fallback: try getAddress if requestAccess didn't return an address
+    const addrResult = await getAddress();
+    if (addrResult.error) {
+      throw new Error(addrResult.error.message || 'Could not get address from Freighter');
+    }
+    if (!addrResult.address) {
+      throw new Error('Could not get address from Freighter');
+    }
+    return { publicKey: addrResult.address, network: 'TESTNET' };
   } catch (error: any) {
-    if (error.message?.includes('User rejected')) throw new Error('User rejected connection');
+    if (error.message?.includes('User rejected') || error.message?.includes('denied')) {
+      throw new Error('User rejected connection');
+    }
     throw error;
   }
 }
