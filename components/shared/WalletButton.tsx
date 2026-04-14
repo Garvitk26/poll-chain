@@ -5,7 +5,7 @@ import { useSession, signIn } from 'next-auth/react';
 // @ts-ignore
 import { 
   isConnected, 
-  getPublicKey, 
+  getAddress, 
   setAllowed
 } from '@stellar/freighter-api';
 import { ChevronDown, LogOut } from 'lucide-react';
@@ -60,7 +60,7 @@ export default function WalletButton() {
     setIsConnecting(true);
     try {
       await setAllowed();
-      const pubKey = await getPublicKey();
+      const { address: pubKey } = await getAddress();
       
       if (!pubKey) throw new Error('Freighter failed to return a public key');
 
