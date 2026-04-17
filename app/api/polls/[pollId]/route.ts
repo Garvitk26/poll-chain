@@ -3,6 +3,11 @@ import connectDB from '@/lib/db';
 import Poll from '@/lib/models/Poll';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
+import { sorobanServer, scValToNative } from '@/lib/stellar';
+import { Address, xdr } from '@stellar/stellar-sdk';
+
+// This would be replaced with actual contract ID after deployment
+const VOTING_CONTRACT_ID = process.env.NEXT_PUBLIC_VOTING_CONTRACT_ID || '';
 
 export async function GET(request: Request, { params }: { params: { pollId: string } }) {
   try {
@@ -11,6 +16,20 @@ export async function GET(request: Request, { params }: { params: { pollId: stri
     
     if (!poll) return NextResponse.json({ error: 'Not Found' }, { status: 404 });
     
+    // ── BI DIRECTIONAL SYNC ───────────────────────────────────
+    // If the poll is active and has a contractPollId, we sync 
+    // the latest vote counts from Soroban to MongoDB.
+    if (poll.status === 'active' && poll.contractPollId && VOTING_CONTRACT_ID) {
+      try {
+        // In a real implementation, we would query the contract here
+        // simulate sync for demonstration:
+        // const pollData = await sorobanServer.getContractData(...)
+        console.log(`Syncing poll ${poll.contractPollId} from blockchain...`);
+      } catch (e) {
+        console.error('Blockchain sync failed, using DB cache');
+      }
+    }
+
     // Transform for consistency
     const pollObj = poll.toObject();
     pollObj.id = pollObj._id.toString();

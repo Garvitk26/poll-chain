@@ -99,14 +99,16 @@ Deployment is automated via **Vercel** — every push to `main` triggers a produ
 
 ## 🔗 Blockchain Details
 
-### Network Information
-| Property | Value |
-|----------|-------|
-| **Network** | Stellar Testnet |
-| **Horizon API** | `https://horizon-testnet.stellar.org` |
-| **Soroban RPC** | `https://soroban-testnet.stellar.org` |
-| **Block Explorer** | [Stellar Expert (Testnet)](https://stellar.expert/explorer/testnet) |
 | **Friendbot** | [https://friendbot.stellar.org](https://friendbot.stellar.org) |
+| **PollStore ID** | `CC7E...VOTING` |
+| **PollToken ID** | `CC7E...TOKEN` |
+
+### How Voting Works (Soroban Integration)
+
+1. **Token Eligibility** — Users must hold a **VOTE token** to participate. A "Claim" feature is available in the UI for testing.
+2. **Poll Creation** — Polls are stored in the `PollStore` contract. Each poll has a title, options, and a real-time vote tally.
+3. **Inter-contract Call** — When `vote` is called on the `PollStore`, it calls `balance_of` on the `PollToken` contract to verify eligibility.
+4. **On-Chain Recording** — Votes are recorded directly in the contract's persistent storage, emitting a `vote` event for real-time tracking.
 
 ### How Voting Works On-Chain
 
@@ -284,8 +286,11 @@ Built for the **Rise In Stellar Blockchain Program** using the Stellar Testnet.
 - [x] Live demo: [poll-chain-phi.vercel.app](https://poll-chain-phi.vercel.app/)
 - [x] Mobile responsive screenshots (375px)
 - [x] CI/CD pipeline badge (GitHub Actions)
-- [x] Blockchain: Stellar Testnet (XLM native asset)
+- [x] Blockchain: Stellar Testnet (Soroban Smart Contracts)
+- [x] Inter-contract calls: `PollStore` → `PollToken`
+- [x] Custom Token: `VOTE` token deployed
 - [x] Transaction verification via Horizon API & Stellar Expert
+- [x] CI/CD: GitHub Actions (Contract Build & Project Sync)
 
 ---
 

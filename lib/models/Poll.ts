@@ -4,6 +4,7 @@ export interface IPollOption {
   id: string;
   label: string;
   memo: string;
+  votes: number;
 }
 
 export interface IPoll extends Document {
@@ -20,6 +21,7 @@ export interface IPoll extends Document {
   isPublic: boolean;
   requireWallet: boolean;
   tags: string[];
+  contractPollId?: number;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -27,7 +29,8 @@ export interface IPoll extends Document {
 const PollOptionSchema: Schema<IPollOption> = new Schema({
   id: { type: String, required: true },
   label: { type: String, required: true },
-  memo: { type: String, required: true, maxlength: 28 }
+  memo: { type: String, required: true, maxlength: 28 },
+  votes: { type: Number, default: 0 }
 }, { _id: false });
 
 const PollSchema: Schema<IPoll> = new Schema({
@@ -44,6 +47,7 @@ const PollSchema: Schema<IPoll> = new Schema({
   isPublic: { type: Boolean, default: true },
   requireWallet: { type: Boolean, default: true },
   tags: [{ type: String }],
+  contractPollId: { type: Number },
 }, { timestamps: true });
 
 const Poll: Model<IPoll> = mongoose.models.Poll || mongoose.model<IPoll>('Poll', PollSchema);

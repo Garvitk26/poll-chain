@@ -8,8 +8,9 @@ import { Info, AlertCircle, ArrowRight } from 'lucide-react';
 import { triggerConfetti } from '@/components/shared/Confetti';
 import { useToast } from '@/lib/context/ToastContext';
 import TransactionSuccessCard from '@/components/shared/TransactionSuccessCard';
-import { getAccountBalance } from '@/lib/stellar';
 import { getAddress } from '@stellar/freighter-api';
+import { castVoteOnChain, claimTokens } from '@/lib/contracts';
+import { getXLMBalance } from '@/lib/stellar';
 
 export default function PublicPollPage({ params }: { params: { pollId: string } }) {
   const { data: session } = useSession();
@@ -63,31 +64,33 @@ export default function PublicPollPage({ params }: { params: { pollId: string } 
     setVoting(true);
     
     try {
-      // 1. Send the XLM transaction (Real vote)
-      const result = await sendXLM({
-        sourcePublicKey: address,
-        destinationAddress: poll.collectorWallet,
-        amountXLM: poll.voteAmount?.toString() || "0.00001",
-        memo: option.memo
+      // Find the index of the selected option
+      const optionIdx = poll.options.findIndex((o: any) => o.id === selectedOption);
+      if (optionIdx === -1) throw new Error('Invalid option selected');
+
+      // 1. Send the Soroban transaction
+      const result = await castVoteOnChain({
+        voter: address,
+        pollId: poll.contractPollId || 1, // Fallback for transition
+        optionIdx: optionIdx
       });
 
       if (!result.success) {
+        if (result.error?.includes('must hold at least 1 VOTE token')) {
+          showToast('You need a VOTE token to vote. Claim one below!', 'warning');
+          setVoting(false);
+          return;
+        }
         throw new Error(result.error || 'Transaction failed');
       }
 
-      // 2. Record vote in DB via API (Real verification)
+      // 2. Record vote in DB (optional sync)
       const res = await fetch(`/api/polls/${poll._id}/vote`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ txHash: result.txHash })
+        body: JSON.stringify({ txHash: result.txHash, source: 'soroban' })
       });
-
-      if (!res.ok) {
-        const errorData = await res.json();
-        throw new Error(errorData.error || 'Vote recording failed');
-      }
       
-      const { vote } = await res.json();
       setLastTxHash(result.txHash);
       
       // Fetch fresh balance
@@ -97,14 +100,35 @@ export default function PublicPollPage({ params }: { params: { pollId: string } 
         setWalletAddr(address);
       } catch (e) {}
 
-      // SHOW SUCCESS CARD IMMEDIATELY AFTER XLM SUCCESS
       setShowSuccessCard(true);
       triggerConfetti();
-      showToast('Transaction confirmed! Your vote is securely recorded.', 'success');
+      showToast('Vote cast via Soroban smart contract!', 'success');
     } catch (err: any) {
       showToast(err.message || 'Transaction failed. Try again.', 'error');
     } finally {
       setVoting(false);
+    }
+  };
+
+  const [claiming, setClaiming] = useState(false);
+  const handleClaimToken = async () => {
+    const { address } = await getAddress();
+    if (!address) {
+      showToast('Connect wallet first', 'error');
+      return;
+    }
+    setClaiming(true);
+    try {
+      const res = await claimTokens(address);
+      if (res.success) {
+        showToast('Tokens claimed! You can now vote.', 'success');
+      } else {
+        showToast(res.error || 'Claim failed', 'error');
+      }
+    } catch (err: any) {
+      showToast(err.message, 'error');
+    } finally {
+      setClaiming(false);
     }
   };
 
@@ -147,8 +171,15 @@ export default function PublicPollPage({ params }: { params: { pollId: string } 
           
           <div className="flex items-center gap-2 mt-6 pt-6 border-t border-rose-500/10 text-xs text-slate-500">
             <Info className="w-4 h-4 text-rose-500" />
-            <span>Voting sends a minuscule transaction to the collector wallet encoding your choice in the Memo field.</span>
+            <span>Voting uses a Soroban smart contract. This poll requires you to hold at least 1 VOTE token.</span>
           </div>
+          <button 
+            onClick={handleClaimToken}
+            disabled={claiming}
+            className="mt-4 text-xs text-rose-400 hover:text-rose-300 transition-colors underline decoration-dotted underline-offset-4"
+          >
+            {claiming ? 'Claiming...' : "Don't have a VOTE token? Claim a free voting pass here."}
+          </button>
         </div>
 
         {/* Option Selection */}

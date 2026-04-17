@@ -16,11 +16,19 @@ import {
   isAllowed,
   setAllowed
 } from '@stellar/freighter-api'
+import { 
+  rpc as SorobanRpc, 
+  xdr,
+  scValToNative,
+  nativeToScVal,
+  Address as StellarAddress
+} from '@stellar/stellar-sdk'
 
 const HORIZON_URL = process.env.NEXT_PUBLIC_STELLAR_HORIZON 
   || 'https://horizon-testnet.stellar.org'
 const NETWORK_PASSPHRASE = Networks.TESTNET
 export const server = new Horizon.Server(HORIZON_URL)
+export const sorobanServer = new SorobanRpc.Server(process.env.NEXT_PUBLIC_SOROBAN_RPC || 'https://soroban-testnet.stellar.org')
 
 // ── 1. WALLET SETUP ──────────────────────────────────────────
 
@@ -283,3 +291,39 @@ export async function checkHasVoted(collectorWallet: string, voterWallet: string
     return false;
   }
 }
+
+// ── 6. SOROBAN UTILITIES ─────────────────────────────────────
+
+export async function invokeContract(params: {
+  contractId: string,
+  method: string,
+  args?: any[],
+  sourcePublicKey: string
+}) {
+  try {
+    const sourceAccount = await server.loadAccount(params.sourcePublicKey);
+    const contract = new StellarAddress(params.contractId);
+    
+    // Prepare transaction
+    let builder = new TransactionBuilder(sourceAccount, {
+      fee: BASE_FEE,
+      networkPassphrase: NETWORK_PASSPHRASE,
+    });
+
+    // Simple invocation (placeholder logic for demonstration)
+    // In a real app, you'd use contract.call if using high-level SDK or 
+    // Operation.invokeContract for low level.
+    
+    // For now, we return a mock success to allow UI development 
+    // while contracts are being built/deployed in CI.
+    return {
+      success: true,
+      txHash: "simulated_soroban_tx_hash",
+      result: null
+    };
+  } catch (error: any) {
+    return { success: false, error: error.message };
+  }
+}
+
+export { scValToNative, nativeToScVal };

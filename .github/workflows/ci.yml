@@ -7,6 +7,47 @@ on:
     branches: [main]
 
 jobs:
+  contract-build-and-test:
+    name: Contract Build & Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: 1.81.0 # Consistent with our local recommendation for wasm32-unknown-unknown
+          targets: wasm32-unknown-unknown
+
+      - name: Cache cargo dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            contracts/target
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+
+      - name: Install Stellar CLI
+        run: |
+          cargo install --locked stellar-cli --version 26.0.0
+
+      - name: Build Token Contract
+        run: |
+          cd contracts
+          cargo build --target wasm32-unknown-unknown --release -p poll-token
+
+      - name: Build Voting Contract
+        run: |
+          cd contracts
+          cargo build --target wasm32-unknown-unknown --release -p poll-store
+
+      - name: Run Contract Tests
+        run: |
+          cd contracts
+          cargo test
+
   build-and-lint:
     name: Build & Lint
     runs-on: ubuntu-latest
