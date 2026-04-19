@@ -72,8 +72,8 @@ jobs:
       - name: Build project
         run: npm run build
         env:
-          MONGODB_URI: ${{ secrets.MONGODB_URI }}
-          NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
+          MONGODB_URI: ${{ secrets.MONGODB_URI || 'mongodb://dummy-uri-for-ci' }}
+          NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET || 'dummy-secret-for-ci' }}
           NEXTAUTH_URL: https://poll-chain-phi.vercel.app
           NEXT_PUBLIC_STELLAR_NETWORK: testnet
           NEXT_PUBLIC_STELLAR_HORIZON: https://horizon-testnet.stellar.org
