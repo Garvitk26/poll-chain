@@ -17,7 +17,7 @@ jobs:
       - name: Install Rust toolchain
         uses: dtolnay/rust-toolchain@stable
         with:
-          toolchain: 1.81.0 # Consistent with our local recommendation for wasm32-unknown-unknown
+          toolchain: stable # Supports edition 2024 required by recent dependencies
           targets: wasm32-unknown-unknown
 
       - name: Cache cargo dependencies
